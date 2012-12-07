@@ -75,7 +75,7 @@ for interface in directlyProvidedBy(complicated).interfaces():
     if interface.getName() == 'IComplex':
         print "Complex is directly provided by complicated"
 
-interfaces = [i for i in implementedBy(Flat).interfaces()] 
+interfaces = [interface for interface in implementedBy(Flat).interfaces()]
 if len(interfaces) == 1:
     if interfaces[0].getName() == 'INested':
-        print "Flat is only implemented by nested"
+        print "Flat only implements nested"
