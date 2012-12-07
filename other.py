@@ -3,7 +3,9 @@ from zope.interface import Attribute
 from zope.interface import Interface
 from zope.interface import directlyProvides
 from zope.interface import directlyProvidedBy
+from zope.interface import implementedBy
 from zope.interface import implements
+from zope.interface import implementsOnly
 
 
 class IUgly(Interface):
@@ -39,6 +41,22 @@ class Complicated:
     """
 
 
+class INested(Interface):
+    """
+    """
+
+class Nested:
+    """
+    """
+    implements(INested)
+
+
+class Flat(Complex):
+    """
+    """
+    implementsOnly(INested)
+
+
 print "The Zen of Zope, by Alex Clark\n\n"
 
 if 'beautiful' in IUgly:
@@ -56,3 +74,8 @@ directlyProvides(complicated, IComplex)
 for interface in directlyProvidedBy(complicated).interfaces():
     if interface.getName() == 'IComplex':
         print "Complex is directly provided by complicated"
+
+interfaces = [i for i in implementedBy(Flat).interfaces()] 
+if len(interfaces) == 1:
+    if interfaces[0].getName() == 'INested':
+        print "Flat is only implemented by nested"
