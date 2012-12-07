@@ -86,7 +86,7 @@ if len(interfaces) == 1:
     if interfaces[0].getName() == 'INested':
         print "Flat only implements nested"
 
-ISparse.setTaggedValue('dense', 'Sparse has a tagged value dense')
+ISparse.setTaggedValue('dense', 'Sparse has tagged value dense')
 tags = ISparse.getTaggedValueTags()
 if 'dense' in tags:
     print ISparse.getTaggedValue('dense')
