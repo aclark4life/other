@@ -57,6 +57,12 @@ class Flat(Complex):
     implementsOnly(INested)
 
 
+class ISparse(Interface):
+    """
+    """
+
+#-------------------------------------------------------------------------------
+
 print "The Zen of Zope, by Alex Clark\n\n"
 
 if 'beautiful' in IUgly:
@@ -79,3 +85,8 @@ interfaces = [interface for interface in implementedBy(Flat).interfaces()]
 if len(interfaces) == 1:
     if interfaces[0].getName() == 'INested':
         print "Flat only implements nested"
+
+ISparse.setTaggedValue('dense', 'Sparse has a tagged value dense')
+tags = ISparse.getTaggedValueTags()
+if 'dense' in tags:
+    print ISparse.getTaggedValue('dense')
