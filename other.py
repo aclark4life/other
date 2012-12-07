@@ -1,6 +1,8 @@
 # Based on http://docs.zope.org/zope.interface/README.html
 from zope.interface import Attribute
 from zope.interface import Interface
+from zope.interface import directlyProvides
+from zope.interface import directlyProvidedBy
 from zope.interface import implements
 
 
@@ -15,7 +17,7 @@ class IExplicit(Interface):
     """
 
 
-class Implicit:
+class Implicit(object):
     """
     """
     implements(IExplicit)
@@ -32,6 +34,11 @@ class Complex:
     implements(IComplex)
 
 
+class Complicated:
+    """
+    """
+
+
 print "The Zen of Zope, by Alex Clark\n\n"
 
 if 'beautiful' in IUgly:
@@ -43,3 +50,9 @@ if IExplicit.implementedBy(Implicit):
 simple = Complex()
 if IComplex.providedBy(simple):
     print "Simple is provided by complex"
+
+complicated = Complicated()
+directlyProvides(complicated, IComplex)
+for interface in directlyProvidedBy(complicated).interfaces():
+    if interface.getName() == 'IComplex':
+        print "Complex is directly provided by complicated"
