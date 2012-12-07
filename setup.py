@@ -5,7 +5,7 @@ setup(
     install_requires=[
         'zope.component',
     ],
-    name='the-other',
+    name='other',
     py_modules=[
         'other',
     ],
