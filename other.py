@@ -7,6 +7,7 @@ from zope.interface import directlyProvidedBy
 from zope.interface import implementedBy
 from zope.interface import implements
 from zope.interface import implementsOnly
+from zope.interface import invariant
 
 
 class IUgly(Interface):
@@ -63,11 +64,40 @@ class ISparse(Interface):
     """
 
 
-class Readability(Invalid):
+class RangeError(Invalid):
     """
     """
+    def __repr__(self):
+        return "RangeError(%r)" % self.args
+
+
+def range_invariant(ob):
+    if ob.max < ob.min:
+        raise RangeError(ob)
+
+
+class IRange(Interface):
+    min = Attribute("Lower bound")
+    max = Attribute("Upper bound")
+    invariant(range_invariant)
+
+
+class Range(object):
+    implements(IRange)
+
+    def __init__(self, min, max):
+        self.min, self.max = min, max
+
+    def __repr__(self):
+        return "Range(%s, %s)" % (self.min, self.max)
+
+
+
+
+
 
 #-------------------------------------------------------------------------------
+
 
 print "The Zen of Zope, by Alex Clark\n\n"
 
@@ -102,3 +132,10 @@ ISparse.setTaggedValue('dense', 'Sparse has tagged value dense')
 tags = ISparse.getTaggedValueTags()
 if 'dense' in tags:
     print ISparse.getTaggedValue('dense')
+
+
+# 7)
+try:
+    IRange.validateInvariants(Range(2,1))
+except RangeError:
+    print "Readability count is not in range"
