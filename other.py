@@ -155,6 +155,19 @@ class Explicit:
         self.errors, self.silence = errors, silence
 
 
+
+class IAmbiguity(Interface):
+    """
+    """
+    pass
+
+
+class IGuess(Interface):
+    """
+    """
+    pass
+
+
 #------------------------------------------------------------------------------
 
 
@@ -213,23 +226,26 @@ if IPurity(practicality) is practicality:
 
 # 10) Errors should never pass silently.
 # Register an object that depends on IErrors and provides ISilence
-error_registry = AdapterRegistry()  # XXX Logic below is not quite right
-error_registry.register([IErrors], ISilence, 'should not', 'pass')
-if (error_registry.lookup([IErrors], ISilence, 'should not') == 'pass' and
-    error_registry.lookup([Interface], ISilence) is None):
+registry = AdapterRegistry()  # XXX Logic below is not quite right
+registry.register([IErrors], ISilence, 'should not', 'pass')
+if (registry.lookup([IErrors], ISilence, 'should not') == 'pass' and
+    registry.lookup([Interface], ISilence) is None):
     print ("Errors should never require a specification that doesn’t extend "
         "the specification of silence.")
 
 # 11) Unless explicitly silenced.
 errors = Errors()
 silence = Silence()
-error_registry.register([IErrors, ISilence], IPass, '', Explicit)
-explicit = error_registry.queryMultiAdapter((errors, silence), IPass)
+registry.register([IErrors, ISilence], IPass, '', Explicit)
+explicit = registry.queryMultiAdapter((errors, silence), IPass)
 if (explicit.__class__.__name__ == "Explicit" and
     explicit.errors is errors and explicit.silence is silence):
     print "Unless explicit is a multi-adapter."
 
 # 12) In the face of ambiguity, refuse the temptation to guess.
+registry.subscribe([IAmbiguity], IGuess, 'refuse the temptation to guess')
+if 'refuse the temptation to guess' in [sub for sub in registry.subscriptions([IAmbiguity], IGuess)]:
+    print "In subscribing to ambiguity, return all the objects that refuse the temptation to guess."
 
 # 13) There should be one-- and preferably only one --obvious way to do it.
 
