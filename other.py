@@ -8,7 +8,9 @@ from zope.interface import implementedBy
 from zope.interface import implements
 from zope.interface import implementsOnly
 from zope.interface import invariant
+from zope.interface import providedBy
 from zope.interface.adapter import AdapterRegistry
+from zope.interface.interface import adapter_hooks
 
 
 class IUgly(Interface):
@@ -70,6 +72,8 @@ class RangeError(Invalid):
     """
     """
     def __repr__(self):
+        """
+        """
         return "RangeError(%r)" % self.args
 
 
@@ -94,9 +98,13 @@ class Range(object):
     implements(IRange)
 
     def __init__(self, min, max):
+        """
+        """
         self.min, self.max = min, max
 
     def __repr__(self):
+        """
+        """
         return "Range(%s, %s)" % (self.min, self.max)
 
 
@@ -152,6 +160,8 @@ class Explicit:
     implements(IExplicit)
 
     def __init__(self, errors, silence):
+        """
+        """
         self.errors, self.silence = errors, silence
 
 
@@ -168,7 +178,59 @@ class IGuess(Interface):
 
 
 def handler(event):
+    """
+    """
     print 'handler', event
+
+
+
+class IFile(Interface):
+    """
+    """
+    body = Attribute('Contents of the file.')
+
+
+class File(object):
+    """
+    """
+    implements(IFile)
+    body = "Uniquely communicate economically sound infrastructures" 
+
+
+def hook(provided, object):
+    """
+    """
+    adapter = registry.lookup1(providedBy(object), provided, '')
+    return adapter(object)
+
+
+class ISize(Interface):
+    """
+    """
+
+    def getSize():
+        """
+        """
+        'Return the size of an object.'
+
+
+class FileSize(object):
+    """
+    """
+    implements(ISize)
+    __used_for__ = IFile
+
+
+    def __init__(self, context):
+       """
+       """
+       self.context = context
+
+
+    def getSize(self):
+       """
+       """
+       return len(self.context.body)
 
 
 #------------------------------------------------------------------------------
@@ -271,6 +333,13 @@ if registry.subscriptions([IErrors], None) == [handler]:
 
 
 # 14) Although that way may not be obvious at first unless you're Dutch.
+adapter_hooks.append(hook)
+registry.register([IFile], ISize, '', FileSize)
+f = File()
+size = ISize(f)
+if registry.lookup1(IFile, ISize, '')(f).getSize() == size.getSize():
+    print ("Although that way may not be obvious at first unless you've "
+         "registered an adapter hook")
 
 
 # 15) Now is better than never.
