@@ -213,7 +213,6 @@ class ISize(Interface):
     def getSize():
         """
         """
-        'Return the size of an object.'
 
 
 class FileSize(object):
