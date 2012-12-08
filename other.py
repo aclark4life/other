@@ -192,6 +192,7 @@ simple = Complex()
 if IComplex.providedBy(simple):
     print "Simple is provided by complex."
 
+
 # 4) Complex is better than complicated.
 complicated = Complicated()
 directlyProvides(complicated, IComplex)
@@ -199,11 +200,13 @@ for interface in directlyProvidedBy(complicated).interfaces():
     if interface.getName() == 'IComplex':
         print "Complex is directly provided by complicated."
 
+
 # 5) Flat is better than nested.
 interfaces = [interface for interface in implementedBy(Flat).interfaces()]
 if len(interfaces) == 1:
     if interfaces[0].getName() == 'INested':
         print "Flat only implements nested."
+
 
 # 6) Sparse is better than dense.
 ISparse.setTaggedValue('dense', 'Sparse has tagged value dense.')
@@ -218,16 +221,19 @@ try:
 except RangeError:
     print "Readability count is not in range."
 
+
 # 8) Special cases aren't special enough to break the rules.
 try:
     ISpecialCases('the rules')
 except TypeError:
     print "Special cases could not adapt the rules."
 
+
 # 9) Although practicality beats purity.
 practicality = Practicality()
 if IPurity(practicality) is practicality:
     print "Practicality implements purity."
+
 
 # 10) Errors should never pass silently.
 # Register an object that depends on IErrors and provides ISilence
@@ -238,6 +244,7 @@ if (registry.lookup([IErrors], ISilence, 'should not') == 'pass' and
     print ("Errors should never require a specification that doesn’t extend "
         "the specification of silence.")
 
+
 # 11) Unless explicitly silenced.
 errors = Errors()
 silence = Silence()
@@ -247,6 +254,7 @@ if (explicit.__class__.__name__ == "Explicit" and
     explicit.errors is errors and explicit.silence is silence):
     print "Unless explicit is a multi-adapter."
 
+
 # 12) In the face of ambiguity, refuse the temptation to guess.
 registry.subscribe([IAmbiguity], IGuess, 'refuse the temptation to guess')
 if 'refuse the temptation to guess' in [sub for sub in
@@ -254,20 +262,27 @@ if 'refuse the temptation to guess' in [sub for sub in
     print ("In subscribing to ambiguity, return all the objects that refuse "
         "the temptation to guess.")
 
+
 # 13) There should be one-- and preferably only one --obvious way to do it.
 registry.subscribe([IErrors], None, handler)
 if registry.subscriptions([IErrors], None) == [handler]:
     print ("There should be none-- and preferably only zero --output from a "
          "handler.")
 
+
 # 14) Although that way may not be obvious at first unless you're Dutch.
+
 
 # 15) Now is better than never.
 
+
 # 16) Although never is often better than *right* now.
+
 
 # 17) If the implementation is hard to explain, it's a bad idea.
 
+
 # 18) If the implementation is easy to explain, it may be a good idea.
+
 
 # 19) Namespaces are one honking great idea -- let's do more of those!
