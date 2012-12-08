@@ -10,7 +10,9 @@ from zope.interface import implementsOnly
 from zope.interface import invariant
 from zope.interface import providedBy
 from zope.interface.adapter import AdapterRegistry
+from zope.interface.exceptions import BrokenImplementation
 from zope.interface.interface import adapter_hooks
+from zope.interface.verify import verifyObject
 
 
 class IUgly(Interface):
@@ -233,6 +235,22 @@ class FileSize(object):
        return len(self.context.body)
 
 
+class INow(Interface):
+    """
+    """
+    x = Attribute("The X attribute")
+    y = Attribute("The Y attribute")
+
+
+class Never(object):
+    """
+    """
+    implements(INow)
+    x = 1
+    def __init__(self):
+        self.y = 2
+
+
 #------------------------------------------------------------------------------
 
 
@@ -343,6 +361,9 @@ if registry.lookup1(IFile, ISize, '')(f).getSize() == size.getSize():
 
 
 # 15) Now is better than never.
+never = Never()
+if verifyObject(INow, never):
+    print "Now is verified by never."
 
 
 # 16) Although never is often better than *right* now.
