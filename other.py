@@ -155,7 +155,6 @@ class Explicit:
         self.errors, self.silence = errors, silence
 
 
-
 class IAmbiguity(Interface):
     """
     """
@@ -182,9 +181,11 @@ print "The Zen of Zope, by Alex Clark\n\n"
 if 'beautiful' in IUgly:
     print IUgly['beautiful'].__doc__
 
+
 # 2) Explicit is better than implicit.
 if IExplicit.implementedBy(Implicit):
     print "Explicit is implemented by implicit."
+
 
 # 3) Simple is better than complex.
 simple = Complex()
@@ -248,13 +249,16 @@ if (explicit.__class__.__name__ == "Explicit" and
 
 # 12) In the face of ambiguity, refuse the temptation to guess.
 registry.subscribe([IAmbiguity], IGuess, 'refuse the temptation to guess')
-if 'refuse the temptation to guess' in [sub for sub in registry.subscriptions([IAmbiguity], IGuess)]:
-    print "In subscribing to ambiguity, return all the objects that refuse the temptation to guess."
+if 'refuse the temptation to guess' in [sub for sub in
+    registry.subscriptions([IAmbiguity], IGuess)]:
+    print ("In subscribing to ambiguity, return all the objects that refuse "
+        "the temptation to guess.")
 
 # 13) There should be one-- and preferably only one --obvious way to do it.
 registry.subscribe([IErrors], None, handler)
 if registry.subscriptions([IErrors], None) == [handler]:
-    print "There should be none-- and preferably only zero --output from a handler."
+    print ("There should be none-- and preferably only zero --output from a "
+         "handler.")
 
 # 14) Although that way may not be obvious at first unless you're Dutch.
 
