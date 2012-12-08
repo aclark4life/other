@@ -10,6 +10,29 @@ from zope.interface import implementsOnly
 from zope.interface import invariant
 
 
+#The Zen of Python, by Tim Peters
+#
+#Beautiful is better than ugly.
+#Explicit is better than implicit.
+#Simple is better than complex.
+#Complex is better than complicated.
+#Flat is better than nested.
+#Sparse is better than dense.
+#Readability counts.
+#Special cases aren't special enough to break the rules.
+#Although practicality beats purity.
+#Errors should never pass silently.
+#Unless explicitly silenced.
+#In the face of ambiguity, refuse the temptation to guess.
+#There should be one-- and preferably only one --obvious way to do it.
+#Although that way may not be obvious at first unless you're Dutch.
+#Now is better than never.
+#Although never is often better than *right* now.
+#If the implementation is hard to explain, it's a bad idea.
+#If the implementation is easy to explain, it may be a good idea.
+#Namespaces are one honking great idea -- let's do more of those!
+
+
 class IUgly(Interface):
     """
     """
@@ -92,8 +115,16 @@ class Range(object):
         return "Range(%s, %s)" % (self.min, self.max)
 
 
+class ISpecialCases(Interface):
+    pass
 
 
+class IPurity(Interface):
+    pass
+
+
+class Practicality(object):
+    implements(IPurity)
 
 
 #-------------------------------------------------------------------------------
@@ -139,3 +170,14 @@ try:
     IRange.validateInvariants(Range(2,1))
 except RangeError:
     print "Readability count is not in range"
+
+# 8)
+try:
+    ISpecialCases('break the rules')
+except TypeError:
+    print "Special cases could not adapt break the rules"
+
+# 9)
+practicality = Practicality()
+if IPurity(practicality) is practicality:
+    print "Practicality implements purity"
