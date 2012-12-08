@@ -8,6 +8,7 @@ from zope.interface import implementedBy
 from zope.interface import implements
 from zope.interface import implementsOnly
 from zope.interface import invariant
+from zope.interface.adapter import AdapterRegistry
 
 
 #The Zen of Python, by Tim Peters
@@ -70,6 +71,7 @@ class INested(Interface):
     """
     """
 
+
 class Nested:
     """
     """
@@ -95,17 +97,23 @@ class RangeError(Invalid):
 
 
 def range_invariant(ob):
+    """
+    """
     if ob.max < ob.min:
         raise RangeError(ob)
 
 
 class IRange(Interface):
+    """
+    """
     min = Attribute("Lower bound")
     max = Attribute("Upper bound")
     invariant(range_invariant)
 
 
 class Range(object):
+    """
+    """
     implements(IRange)
 
     def __init__(self, min, max):
@@ -116,20 +124,42 @@ class Range(object):
 
 
 class ISpecialCases(Interface):
+    """
+    """
     pass
 
 
 class IPurity(Interface):
+    """
+    """
     pass
 
 
 class Practicality(object):
+    """
+    """
     implements(IPurity)
 
 
-#-------------------------------------------------------------------------------
+class IErrors(Interface):
+    """
+    """
+    pass
 
 
+class ISilence(Interface):
+    """
+    """
+    pass
+
+
+class IPass(IErrors):
+    """
+    """
+    pass
+
+
+#------------------------------------------------------------------------------
 print "The Zen of Zope, by Alex Clark\n\n"
 
 # 1)
@@ -167,7 +197,7 @@ if 'dense' in tags:
 
 # 7)
 try:
-    IRange.validateInvariants(Range(2,1))
+    IRange.validateInvariants(Range(2, 1))
 except RangeError:
     print "Readability count is not in range"
 
@@ -181,3 +211,11 @@ except TypeError:
 practicality = Practicality()
 if IPurity(practicality) is practicality:
     print "Practicality implements purity"
+
+# 10) Register an object that depends on IErrors and provides ISilence
+error_registry = AdapterRegistry()  # XXX Logic below is not quite right
+error_registry.register([IErrors], ISilence, 'should not', 'pass')
+if (error_registry.lookup([IErrors], ISilence, 'should not') == 'pass' and
+    error_registry.lookup([Interface], ISilence) is None):
+    print ("Errors should never require a specification that doesn’t extend "
+        "the specification of silence")
