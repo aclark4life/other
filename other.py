@@ -168,6 +168,10 @@ class IGuess(Interface):
     pass
 
 
+def handler(event):
+    print 'handler', event
+
+
 #------------------------------------------------------------------------------
 
 
@@ -248,6 +252,9 @@ if 'refuse the temptation to guess' in [sub for sub in registry.subscriptions([I
     print "In subscribing to ambiguity, return all the objects that refuse the temptation to guess."
 
 # 13) There should be one-- and preferably only one --obvious way to do it.
+registry.subscribe([IErrors], None, handler)
+if registry.subscriptions([IErrors], None) == [handler]:
+    print "There should be none-- and preferably only zero --output from a handler."
 
 # 14) Although that way may not be obvious at first unless you're Dutch.
 
