@@ -159,9 +159,29 @@ class IPass(IErrors):
     pass
 
 
-#------------------------------------------------------------------------------
-print "The Zen of Zope, by Alex Clark\n\n"
+class Errors:
+    """
+    """
+    implements(IErrors)
 
+
+class Silence:
+    """
+    """
+    implements(ISilence)
+
+
+class Explicit:
+    implements(IExplicit)
+
+    def __init__(self, errors, silence):
+        self.errors, self.silence = errors, silence
+
+
+#------------------------------------------------------------------------------
+
+
+print "The Zen of Zope, by Alex Clark\n\n"
 # 1)
 if 'beautiful' in IUgly:
     print IUgly['beautiful'].__doc__
@@ -203,9 +223,9 @@ except RangeError:
 
 # 8)
 try:
-    ISpecialCases('break the rules')
+    ISpecialCases('the rules')
 except TypeError:
-    print "Special cases could not adapt break the rules"
+    print "Special cases could not adapt the rules"
 
 # 9)
 practicality = Practicality()
@@ -219,3 +239,12 @@ if (error_registry.lookup([IErrors], ISilence, 'should not') == 'pass' and
     error_registry.lookup([Interface], ISilence) is None):
     print ("Errors should never require a specification that doesn’t extend "
         "the specification of silence")
+
+# 11)
+errors = Errors()
+silence = Silence()
+error_registry.register([IErrors, ISilence], IPass, '', Explicit)
+explicit = error_registry.queryMultiAdapter((errors, silence), IPass)
+if (explicit.__class__.__name__ == "Explicit" and
+    explicit.errors is errors and explicit.silence is silence):
+    print "Unless explicit is a multi-adapter"
