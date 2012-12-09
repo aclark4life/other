@@ -13,6 +13,9 @@ from zope.interface.adapter import AdapterRegistry
 from zope.interface.exceptions import BrokenImplementation
 from zope.interface.interface import adapter_hooks
 from zope.interface.verify import verifyObject
+# And http://docs.zope.org/zope.component/index.html
+from zope.component import provideUtility
+from zope.component import queryUtility
 
 
 class IUgly(Interface):
@@ -185,7 +188,6 @@ def handler(event):
     print 'handler', event
 
 
-
 class IFile(Interface):
     """
     """
@@ -196,7 +198,7 @@ class File(object):
     """
     """
     implements(IFile)
-    body = "Uniquely communicate economically sound infrastructures" 
+    body = "Uniquely communicate economically sound infrastructures"
 
 
 def hook(provided, object):
@@ -219,19 +221,16 @@ class FileSize(object):
     """
     """
     implements(ISize)
-    __used_for__ = IFile
-
 
     def __init__(self, context):
-       """
-       """
-       self.context = context
-
+        """
+        """
+        self.context = context
 
     def getSize(self):
-       """
-       """
-       return len(self.context.body)
+        """
+        """
+        return len(self.context.body)
 
 
 class INow(Interface):
@@ -251,6 +250,7 @@ class Never(object):
     """
     implements(INow)
     x = 1
+
     def __init__(self):
         self.y = 2
 
@@ -258,6 +258,30 @@ class Never(object):
 class RightNow(object):
     implements(INever)
     x = 1
+
+
+class IImplementation(Interface):
+    """
+    """
+    def explain():
+        """
+        """
+
+
+class Implementation:
+    """
+    """
+    implements(IImplementation)
+
+    def __init__(self, implementation="easy to explain"):
+        """
+        """
+        self.implementation = implementation
+
+    def explain(self):
+        """
+        """
+        print "If the implementation is", self.implementation
 
 
 #------------------------------------------------------------------------------
@@ -384,6 +408,10 @@ except BrokenImplementation:
 
 
 # 17) If the implementation is hard to explain, it's a bad idea.
+implementation = Implementation("hard to explain, it queries the bad idea "
+    "utility.")
+provideUtility(implementation, IImplementation, 'bad idea')
+queryUtility(IImplementation, 'bad idea').explain()
 
 
 # 18) If the implementation is easy to explain, it may be a good idea.
