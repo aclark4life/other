@@ -29,6 +29,9 @@ from zope.component import queryUtility
 __gittip_url__ = "https://www.gittip.com/aclark4life/"
 
 
+TITLE = "The Zen of Zope, by Alex Clark"
+
+
 class IUgly(Interface):
     """
     """
@@ -299,7 +302,7 @@ class Implementation:
 #------------------------------------------------------------------------------
 
 
-print "The Zen of Zope, by Alex Clark\n\n"
+print "%s\n\n" % TITLE
 
 
 # 1) Beautiful is better than ugly.
