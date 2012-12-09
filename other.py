@@ -1,3 +1,4 @@
+# encoding: utf-8
 from zope.interface import Attribute
 from zope.interface import Interface
 from zope.interface import Invalid
@@ -435,3 +436,4 @@ queryUtility(IImplementation, 'good idea').explain()
 
 
 # 19) Namespaces are one honking great idea -- let's do more of those!
+print "Implicit namespace packages are one honking great idea -- let's do more of those!"
