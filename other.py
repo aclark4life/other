@@ -429,4 +429,5 @@ queryUtility(IImplementation, 'good idea').explain()
 
 
 # 19) Namespaces are one honking great idea -- let's do more of those!
-print "Implicit namespace packages are one honking great idea -- let's do more of those!"
+print ("Implicit namespace packages are one honking great idea -- let's do "
+    "more of those!")
