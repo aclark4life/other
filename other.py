@@ -1,4 +1,3 @@
-# Based on http://docs.zope.org/zope.interface/README.html
 from zope.interface import Attribute
 from zope.interface import Interface
 from zope.interface import Invalid
@@ -13,9 +12,20 @@ from zope.interface.adapter import AdapterRegistry
 from zope.interface.exceptions import BrokenImplementation
 from zope.interface.interface import adapter_hooks
 from zope.interface.verify import verifyObject
-# And http://docs.zope.org/zope.component/index.html
+
 from zope.component import provideUtility
 from zope.component import queryUtility
+
+# This is a crash course on the Zope Component Architecture (ZCA), based on
+# http://docs.zope.org/zope.interface/README.html and
+# http://docs.zope.org/zope.component/index.html, and heavily inspired by
+# The Anti-Zen of Python, by Daniel Greenfeld and
+# The Zen of Python, by Tim Peters.
+# Copyright (C) 2012 Alex Clark
+# All rights reserved
+
+
+__gittip_url__ = "https://www.gittip.com/aclark4life/"
 
 
 class IUgly(Interface):
@@ -412,7 +422,7 @@ except BrokenImplementation:
 bad_idea = Implementation("hard to explain, it queries the bad idea "
     "utility.")  # XXX Logic?
 provideUtility(bad_idea, IImplementation, 'bad idea')
-queryUtility(IImplementation, 'bad idea').explain()  
+queryUtility(IImplementation, 'bad idea').explain()
 
 
 # 18) If the implementation is easy to explain, it may be a good idea.
@@ -422,4 +432,3 @@ queryUtility(IImplementation, 'good idea').explain()
 
 
 # 19) Namespaces are one honking great idea -- let's do more of those!
-
