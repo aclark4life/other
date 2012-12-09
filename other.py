@@ -405,7 +405,7 @@ f = File()
 size = ISize(f)
 if registry.lookup1(IFile, ISize, '')(f).getSize() == size.getSize():
     print ("Although that way may not be obvious at first unless you've "
-         "registered an adapter hook")
+         "registered an adapter hook.")
 
 
 # 15) Now is better than never.
