@@ -429,5 +429,6 @@ queryUtility(IImplementation, 'good idea').explain()
 
 
 # 19) Namespaces are one honking great idea -- let's do more of those!
+# http://www.python.org/dev/peps/pep-0420/
 print ("Implicit namespace packages are one honking great idea -- let's do "
     "more of those!")
