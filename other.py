@@ -273,7 +273,8 @@ class Implementation:
     """
     implements(IImplementation)
 
-    def __init__(self, implementation="easy to explain"):
+    def __init__(self, implementation="easy to explain, it may query the "
+        "good idea utility."):
         """
         """
         self.implementation = implementation
@@ -408,13 +409,17 @@ except BrokenImplementation:
 
 
 # 17) If the implementation is hard to explain, it's a bad idea.
-implementation = Implementation("hard to explain, it queries the bad idea "
-    "utility.")
-provideUtility(implementation, IImplementation, 'bad idea')
-queryUtility(IImplementation, 'bad idea').explain()
+bad_idea = Implementation("hard to explain, it queries the bad idea "
+    "utility.")  # XXX Logic?
+provideUtility(bad_idea, IImplementation, 'bad idea')
+queryUtility(IImplementation, 'bad idea').explain()  
 
 
 # 18) If the implementation is easy to explain, it may be a good idea.
+good_idea = Implementation()  # XXX Logic?
+provideUtility(good_idea, IImplementation, 'good idea')
+queryUtility(IImplementation, 'good idea').explain()
 
 
 # 19) Namespaces are one honking great idea -- let's do more of those!
+
