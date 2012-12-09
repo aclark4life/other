@@ -16,6 +16,8 @@ from zope.interface.verify import verifyObject
 from zope.component import provideUtility
 from zope.component import queryUtility
 
+TITLE = "The Zen of Zope, by Alex Clark"
+
 # This is a crash course on the Zope Component Architecture (ZCA), based on
 # http://docs.zope.org/zope.interface/README.html and
 # http://docs.zope.org/zope.component/index.html, and heavily inspired by
@@ -27,9 +29,6 @@ from zope.component import queryUtility
 
 
 __gittip_url__ = "https://www.gittip.com/aclark4life/"
-
-
-TITLE = "The Zen of Zope, by Alex Clark"
 
 
 class IUgly(Interface):
