@@ -130,13 +130,11 @@ class Range(object):
 class ISpecialCases(Interface):
     """
     """
-    pass
 
 
 class IPurity(Interface):
     """
     """
-    pass
 
 
 class Practicality(object):
@@ -148,19 +146,16 @@ class Practicality(object):
 class IErrors(Interface):
     """
     """
-    pass
 
 
 class ISilence(Interface):
     """
     """
-    pass
 
 
 class IPass(IErrors):
     """
     """
-    pass
 
 
 class Errors:
@@ -187,13 +182,11 @@ class Explicit:
 class IAmbiguity(Interface):
     """
     """
-    pass
 
 
 class IGuess(Interface):
     """
     """
-    pass
 
 
 def handler(event):
