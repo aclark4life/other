@@ -241,6 +241,11 @@ class INow(Interface):
     y = Attribute("The Y attribute")
 
 
+class INever(INow):
+    """
+    """
+
+
 class Never(object):
     """
     """
@@ -248,6 +253,11 @@ class Never(object):
     x = 1
     def __init__(self):
         self.y = 2
+
+
+class RightNow(object):
+    implements(INever)
+    x = 1
 
 
 #------------------------------------------------------------------------------
@@ -366,6 +376,11 @@ if verifyObject(INow, never):
 
 
 # 16) Although never is often better than *right* now.
+right_now = RightNow()
+try:
+    verifyObject(INever, right_now)
+except BrokenImplementation:
+    print "Although never is not implemented by *right* now."
 
 
 # 17) If the implementation is hard to explain, it's a bad idea.
