@@ -21,7 +21,7 @@ from zope.component import queryUtility
 # http://docs.zope.org/zope.component/index.html, and heavily inspired by
 # The Anti-Zen of Python, by Daniel Greenfeld and
 # The Zen of Python, by Tim Peters.
-# Special thanks to Guido Van Rossum for Python and Jim Fulton for Zope.
+# Special thanks to Guido Van Rossum for Python, and Jim Fulton for Zope.
 # Copyright (C) 2012 Alex Clark
 # All rights reserved
 
