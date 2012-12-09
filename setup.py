@@ -16,7 +16,8 @@ setup(
     ],
     name='other',  # The other: get it?!
     py_modules=[
-        'other',  
+        'other',
     ],
+    url="https://github.com/aclark4life/other",
     version=VERSION,
 )
