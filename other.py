@@ -44,6 +44,15 @@ class IUgly(Interface):
     beautiful = Attribute("Beautiful is an attribute of ugly.")
 
 
+class UglyDude:
+    """
+    Ugly dude must have a beautiful attribute
+    """
+
+    implements(IUgly)
+    beautiful = False
+
+
 class IExplicit(Interface):
     """
     """
