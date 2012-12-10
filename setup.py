@@ -17,7 +17,9 @@ setup(
     name='other',  # The other: get it?!
     py_modules=[
         'other',
+        'tests',
     ],
+    test_suite = 'tests.TestSuite',
     url="https://github.com/aclark4life/other",
     version=VERSION,
 )
