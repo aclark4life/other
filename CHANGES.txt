@@ -1,8 +1,14 @@
 Changes
 =======
 
+1.0.1 (2012/12/9)
+-----------------
+
+- Add tests
+  [aclark]
+
 1.0.0 (2012/12/8)
 -----------------
 
 - First release
-    [aclark]
+  [aclark]

@@ -8,7 +8,10 @@ setup(
     author='Alex Clark',
     author_email='aclark@aclark.net',
     description='The Zen of Zope, by Alex Clark',
-    long_description=open('README.rst').read(),
+    long_description=(
+        open('README.rst').read() + '\n' +
+        open('CHANGES.txt').read()
+    ),
     install_requires=[
         # This: included in the stdlib
         'that',  # That: included for fun
