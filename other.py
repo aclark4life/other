@@ -153,13 +153,6 @@ class Silence:
     implements(ISilence)
 
 
-class Explicit:
-    implements(IExplicit)
-
-    def __init__(self, errors, silence):
-        """
-        """
-        self.errors, self.silence = errors, silence
 
 
 class IAmbiguity(Interface):
@@ -283,7 +276,7 @@ print "%s\n\n" % TITLE
 
 # 1) Beautiful is better than ugly.
 
-class IUgly(Interface):
+class IAppearance(Interface):
     """
     Interfaces are objects that specify the behavior of objects that
     provide them, through:
@@ -292,18 +285,20 @@ class IUgly(Interface):
         - Invariants, which are conditions that must hold true for
             an object to provide an interface
     """
-    beautiful = Attribute("Beautiful is an attribute of ugly.")
+    beautiful = Attribute("Beautiful is an attribute of appearance.")
 
 
-class UglyThing:
+class Appearance(object):
     """
-    Ugly thing must have a beautiful attribute
     """
+    implements(IAppearance)
+    beautiful = None
 
-    implements(IUgly)
-    beautiful = "The interface specifies I have this attribute."
-if 'beautiful' in IUgly:
-    print IUgly['beautiful'].__doc__
+
+appearance = Appearance()
+if hasattr(appearance, 'beautiful'):
+    print IAppearance['beautiful'].__doc__
+
 
 
 # 2) Explicit is better than implicit.
@@ -322,6 +317,13 @@ class Implicit(object):
     interfaces directly, in addition to what their classes implement.)
     """
     implements(IExplicit)
+class Explicit:
+    implements(IExplicit)
+
+    def __init__(self, errors, silence):
+        """
+        """
+        self.errors, self.silence = errors, silence
 
 
 if IExplicit.implementedBy(Implicit):
