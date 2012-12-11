@@ -276,29 +276,29 @@ print "%s\n\n" % TITLE
 
 # 1) Beautiful is better than ugly.
 
-class IAppearance(Interface):
-    """
-    Interfaces are objects that specify the behavior of objects that
-    provide them, through:
-        - Informal documentation e.g. doc strings
-        - Attribute definitions
-        - Invariants, which are conditions that must hold true for
-            an object to provide an interface
-    """
-    beautiful = Attribute("Beautiful is an attribute of appearance.")
+# Interfaces are objects that specify the behavior of objects that
+# provide them, through:
+#     - Informal documentation e.g. doc strings
+#     - Attribute definitions
+#     - Invariants, which are conditions that must hold true for
+#         an object to provide an interface
 
-
-class Appearance(object):
+class IPerson(Interface):
     """
     """
-    implements(IAppearance)
-    beautiful = None
+    beautiful = Attribute("Beautiful is an attribute of person.")
 
 
-appearance = Appearance()
-if hasattr(appearance, 'beautiful'):
-    print IAppearance['beautiful'].__doc__
+class Person(object):
+    """
+    """
+    implements(IPerson)
+    beautiful = True
 
+
+person = Person()
+if hasattr(person, 'beautiful'):
+    print IPerson['beautiful'].__doc__
 
 
 # 2) Explicit is better than implicit.
