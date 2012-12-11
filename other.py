@@ -32,38 +32,6 @@ TITLE = "The Zen of Zope, by Alex Clark"
 __gittip_url__ = "https://www.gittip.com/aclark4life/"
 
 
-class IUgly(Interface):
-    """
-    Interfaces are objects that specify the behavior of objects that
-    provide them, through:
-        - Informal documentation e.g. doc strings
-        - Attribute definitions
-        - Invariants, which are conditions that must hold true for
-            an object to provide an interface
-    """
-    beautiful = Attribute("Beautiful is an attribute of ugly.")
-
-
-class UglyThing:
-    """
-    Ugly thing must have a beautiful attribute
-    """
-
-    implements(IUgly)
-    beautiful = "The interface specifies I have this attribute."
-
-
-class IExplicit(Interface):
-    """
-    """
-
-
-class Implicit(object):
-    """
-    """
-    implements(IExplicit)
-
-
 class IComplex(Interface):
     """
     """
@@ -314,11 +282,48 @@ print "%s\n\n" % TITLE
 
 
 # 1) Beautiful is better than ugly.
+
+class IUgly(Interface):
+    """
+    Interfaces are objects that specify the behavior of objects that
+    provide them, through:
+        - Informal documentation e.g. doc strings
+        - Attribute definitions
+        - Invariants, which are conditions that must hold true for
+            an object to provide an interface
+    """
+    beautiful = Attribute("Beautiful is an attribute of ugly.")
+
+
+class UglyThing:
+    """
+    Ugly thing must have a beautiful attribute
+    """
+
+    implements(IUgly)
+    beautiful = "The interface specifies I have this attribute."
 if 'beautiful' in IUgly:
     print IUgly['beautiful'].__doc__
 
 
 # 2) Explicit is better than implicit.
+class IExplicit(Interface):
+    """
+    We say that objects provide interfaces. If an object provides an interface
+    then the interface specifies the behavior of the object. In other words,
+    interfaces specify the behavior of the objects that provide them.
+    """
+
+class Implicit(object):
+    """
+    We normally say that classes implement interfaces. If a class implements an
+    interface, then the instances of the class provide the interface. Objects
+    provide interfaces that their classes implement [2]. (Objects can provide
+    interfaces directly, in addition to what their classes implement.)
+    """
+    implements(IExplicit)
+
+
 if IExplicit.implementedBy(Implicit):
     print "Explicit is implemented by implicit."
 
