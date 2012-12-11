@@ -44,13 +44,13 @@ class IUgly(Interface):
     beautiful = Attribute("Beautiful is an attribute of ugly.")
 
 
-class UglyDude:
+class UglyThing:
     """
-    Ugly dude must have a beautiful attribute
+    Ugly thing must have a beautiful attribute
     """
 
     implements(IUgly)
-    beautiful = False
+    beautiful = "The interface specifies I have this attribute."
 
 
 class IExplicit(Interface):

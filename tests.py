@@ -12,10 +12,10 @@ class TestSuite(TestCase):  # Not really a test suite
 
     def test_ugly(self):
         """
-        Verify the dude object has a beautiful attribute
+        Verify object has a beautiful attribute
         """
-        dude = UglyDude()
-        verifyObject(IUgly, dude)
+        ugly_thing = UglyThing()
+        verifyObject(IUgly, ugly_thing)
 
 
 if __name__ == '__main__':
