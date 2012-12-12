@@ -32,17 +32,6 @@ TITLE = "The Zen of Zope, by Alex Clark"
 __gittip_url__ = "https://www.gittip.com/aclark4life/"
 
 
-class IComplex(Interface):
-    """
-    """
-
-
-class Complex:
-    """
-    """
-    implements(IComplex)
-
-
 class Complicated:
     """
     """
@@ -58,11 +47,6 @@ class Nested:
     """
     implements(INested)
 
-
-class Flat(Complex):
-    """
-    """
-    implementsOnly(INested)
 
 
 class ISparse(Interface):
@@ -331,6 +315,17 @@ if IExplicit.implementedBy(Implicit):
 
 
 # 3) Simple is better than complex.
+class IComplex(Interface):
+    """
+    """
+
+
+class Complex:
+    """
+    """
+    implements(IComplex)
+
+
 simple = Complex()
 if IComplex.providedBy(simple):
     print "Simple is provided by complex."
@@ -345,6 +340,11 @@ for interface in directlyProvidedBy(complicated).interfaces():
 
 
 # 5) Flat is better than nested.
+class Flat(Complex):
+    """
+    """
+    implementsOnly(INested)
+
 interfaces = [interface for interface in implementedBy(Flat).interfaces()]
 if len(interfaces) == 1:
     if interfaces[0].getName() == 'INested':
