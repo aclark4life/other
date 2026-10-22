@@ -1,8 +1,20 @@
 Changes
 =======
 
-1.0.1 (Unreleased)
+2.0.0 (2026/10/22)
 ------------------
+
+- Drop Python 2; require Python 3.10+
+  [aclark]
+
+- Use ``@implementer`` class decorators instead of ``implements()``
+  [aclark]
+
+- Move packaging to ``pyproject.toml``
+  [aclark]
+
+- Publish to PyPI with trusted publishing via GitHub Actions
+  [aclark]
 
 - Add tests
   [aclark]

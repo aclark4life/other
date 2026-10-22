@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "other"  # The other: get it?!
+version = "2.0.0"
+description = "The Zen of Zope, by Alex Clark"
+authors = [{ name = "Alex Clark", email = "aclark@aclark.net" }]
+requires-python = ">=3.10"
+dependencies = [
+    # This: included in the stdlib
+    "that",  # That: included for fun
+    "zope.component",
+]
+classifiers = [
+    "Framework :: Zope",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+]
+dynamic = ["readme"]
+
+[project.urls]
+Homepage = "https://github.com/aclark4life/other"
+
+[tool.setuptools]
+py-modules = ["other"]
+
+[tool.setuptools.dynamic]
+readme = { file = ["README.rst", "CHANGES.txt"], content-type = "text/x-rst" }

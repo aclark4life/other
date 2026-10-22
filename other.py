@@ -5,8 +5,8 @@ from zope.interface import Invalid
 from zope.interface import directlyProvides
 from zope.interface import directlyProvidedBy
 from zope.interface import implementedBy
-from zope.interface import implements
-from zope.interface import implementsOnly
+from zope.interface import implementer
+from zope.interface import implementer_only
 from zope.interface import invariant
 from zope.interface import providedBy
 from zope.interface.adapter import AdapterRegistry
@@ -42,10 +42,10 @@ class INested(Interface):
     """
 
 
+@implementer(INested)
 class Nested:
     """
     """
-    implements(INested)
 
 
 
@@ -78,10 +78,10 @@ class IRange(Interface):
     invariant(range_invariant)
 
 
+@implementer(IRange)
 class Range(object):
     """
     """
-    implements(IRange)
 
     def __init__(self, min, max):
         """
@@ -104,10 +104,10 @@ class IPurity(Interface):
     """
 
 
+@implementer(IPurity)
 class Practicality(object):
     """
     """
-    implements(IPurity)
 
 
 class IErrors(Interface):
@@ -125,16 +125,16 @@ class IPass(IErrors):
     """
 
 
+@implementer(IErrors)
 class Errors:
     """
     """
-    implements(IErrors)
 
 
+@implementer(ISilence)
 class Silence:
     """
     """
-    implements(ISilence)
 
 
 
@@ -152,7 +152,7 @@ class IGuess(Interface):
 def handler(event):
     """
     """
-    print 'handler', event
+    print('handler', event)
 
 
 class IFile(Interface):
@@ -161,10 +161,10 @@ class IFile(Interface):
     body = Attribute('Contents of the file.')
 
 
+@implementer(IFile)
 class File(object):
     """
     """
-    implements(IFile)
     body = "Uniquely communicate economically sound infrastructures"
 
 
@@ -184,10 +184,10 @@ class ISize(Interface):
         """
 
 
+@implementer(ISize)
 class FileSize(object):
     """
     """
-    implements(ISize)
 
     def __init__(self, context):
         """
@@ -212,18 +212,18 @@ class INever(INow):
     """
 
 
+@implementer(INow)
 class Never(object):
     """
     """
-    implements(INow)
     x = 1
 
     def __init__(self):
         self.y = 2
 
 
+@implementer(INever)
 class RightNow(object):
-    implements(INever)
     x = 1
 
 
@@ -235,10 +235,10 @@ class IImplementation(Interface):
         """
 
 
+@implementer(IImplementation)
 class Implementation:
     """
     """
-    implements(IImplementation)
 
     def __init__(self, implementation="easy to explain, it may query the "
         "good idea utility."):
@@ -249,13 +249,13 @@ class Implementation:
     def explain(self):
         """
         """
-        print "If the implementation is", self.implementation
+        print("If the implementation is", self.implementation)
 
 
 #------------------------------------------------------------------------------
 
 
-print "%s\n\n" % TITLE
+print("%s\n\n" % TITLE)
 
 
 # 1) Beautiful is better than ugly.
@@ -273,16 +273,16 @@ class IPerson(Interface):
     beautiful = Attribute("Beautiful is an attribute of person.")
 
 
+@implementer(IPerson)
 class Person(object):
     """
     """
-    implements(IPerson)
     beautiful = True
 
 
 person = Person()
 if hasattr(person, 'beautiful'):
-    print IPerson['beautiful'].__doc__
+    print(IPerson['beautiful'].__doc__)
 
 
 # 2) Explicit is better than implicit.
@@ -293,6 +293,7 @@ class IExplicit(Interface):
     interfaces specify the behavior of the objects that provide them.
     """
 
+@implementer(IExplicit)
 class Implicit(object):
     """
     We normally say that classes implement interfaces. If a class implements an
@@ -300,9 +301,8 @@ class Implicit(object):
     provide interfaces that their classes implement [2]. (Objects can provide
     interfaces directly, in addition to what their classes implement.)
     """
-    implements(IExplicit)
+@implementer(IExplicit)
 class Explicit:
-    implements(IExplicit)
 
     def __init__(self, errors, silence):
         """
@@ -311,7 +311,7 @@ class Explicit:
 
 
 if IExplicit.implementedBy(Implicit):
-    print "Explicit is implemented by implicit."
+    print("Explicit is implemented by implicit.")
 
 
 # 3) Simple is better than complex.
@@ -320,15 +320,15 @@ class IComplex(Interface):
     """
 
 
+@implementer(IComplex)
 class Complex:
     """
     """
-    implements(IComplex)
 
 
 simple = Complex()
 if IComplex.providedBy(simple):
-    print "Simple is provided by complex."
+    print("Simple is provided by complex.")
 
 
 # 4) Complex is better than complicated.
@@ -336,46 +336,46 @@ complicated = Complicated()
 directlyProvides(complicated, IComplex)
 for interface in directlyProvidedBy(complicated).interfaces():
     if interface.getName() == 'IComplex':
-        print "Complex is directly provided by complicated."
+        print("Complex is directly provided by complicated.")
 
 
 # 5) Flat is better than nested.
+@implementer_only(INested)
 class Flat(Complex):
     """
     """
-    implementsOnly(INested)
 
 interfaces = [interface for interface in implementedBy(Flat).interfaces()]
 if len(interfaces) == 1:
     if interfaces[0].getName() == 'INested':
-        print "Flat only implements nested."
+        print("Flat only implements nested.")
 
 
 # 6) Sparse is better than dense.
 ISparse.setTaggedValue('dense', 'Sparse has tagged value dense.')
 tags = ISparse.getTaggedValueTags()
 if 'dense' in tags:
-    print ISparse.getTaggedValue('dense')
+    print(ISparse.getTaggedValue('dense'))
 
 
 # 7) Readability counts.
 try:
     IRange.validateInvariants(Range(2, 1))
 except RangeError:
-    print "Readability count is not in range."
+    print("Readability count is not in range.")
 
 
 # 8) Special cases aren't special enough to break the rules.
 try:
     ISpecialCases('the rules')
 except TypeError:
-    print "Special cases could not adapt the rules."
+    print("Special cases could not adapt the rules.")
 
 
 # 9) Although practicality beats purity.
 practicality = Practicality()
 if IPurity(practicality) is practicality:
-    print "Practicality implements purity."
+    print("Practicality implements purity.")
 
 
 # 10) Errors should never pass silently.
@@ -395,7 +395,7 @@ registry.register([IErrors, ISilence], IPass, '', Explicit)
 explicit = registry.queryMultiAdapter((errors, silence), IPass)
 if (explicit.__class__.__name__ == "Explicit" and
     explicit.errors is errors and explicit.silence is silence):
-    print "Unless explicit is a multi-adapter."
+    print("Unless explicit is a multi-adapter.")
 
 
 # 12) In the face of ambiguity, refuse the temptation to guess.
@@ -426,7 +426,7 @@ if registry.lookup1(IFile, ISize, '')(f).getSize() == size.getSize():
 # 15) Now is better than never.
 never = Never()
 if verifyObject(INow, never):
-    print "Now is verified by never."
+    print("Now is verified by never.")
 
 
 # 16) Although never is often better than *right* now.
@@ -434,7 +434,7 @@ right_now = RightNow()
 try:
     verifyObject(INever, right_now)
 except BrokenImplementation:
-    print "Although never is not implemented by *right* now."
+    print("Although never is not implemented by *right* now.")
 
 
 # 17) If the implementation is hard to explain, it's a bad idea.
