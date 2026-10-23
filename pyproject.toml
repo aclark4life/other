@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "other"  # The other: get it?!
-version = "2.0.0"
+version = "2.0.1"
 description = "The Zen of Zope, by Alex Clark"
 authors = [{ name = "Alex Clark", email = "aclark@aclark.net" }]
 requires-python = ">=3.10"
@@ -22,6 +22,7 @@ dynamic = ["readme"]
 
 [project.urls]
 Homepage = "https://github.com/aclark4life/other"
+Funding = "https://github.com/sponsors/aclark4life"
 
 [tool.setuptools]
 py-modules = ["other"]

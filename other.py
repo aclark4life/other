@@ -29,9 +29,6 @@ TITLE = "The Zen of Zope, by Alex Clark"
 # All rights reserved
 
 
-__gittip_url__ = "https://www.gittip.com/aclark4life/"
-
-
 class Complicated:
     """
     """
