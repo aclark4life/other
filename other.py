@@ -1,4 +1,8 @@
 # encoding: utf-8
+"""
+The Zen of Zope: a crash course on the Zope Component Architecture (ZCA),
+told through the aphorisms of The Zen of Python. Run it to print them.
+"""
 from zope.interface import Attribute
 from zope.interface import Interface
 from zope.interface import Invalid
@@ -31,37 +35,45 @@ TITLE = "The Zen of Zope, by Alex Clark"
 
 class Complicated:
     """
+    A plain class that implements nothing; its instances are later made to
+    provide IComplex directly.
     """
 
 
 class INested(Interface):
     """
+    Marker interface that Flat implements to the exclusion of all others.
     """
 
 
 @implementer(INested)
 class Nested:
     """
+    A class that implements INested.
     """
 
 
 
 class ISparse(Interface):
     """
+    Marker interface used to demonstrate tagged values.
     """
 
 
 class RangeError(Invalid):
     """
+    Raised when a range's upper bound is less than its lower bound.
     """
     def __repr__(self):
         """
+        Return a representation including the offending object.
         """
         return "RangeError(%r)" % self.args
 
 
 def range_invariant(ob):
     """
+    Invariant for IRange: raise RangeError if ob.max is less than ob.min.
     """
     if ob.max < ob.min:
         raise RangeError(ob)
@@ -69,6 +81,7 @@ def range_invariant(ob):
 
 class IRange(Interface):
     """
+    A range with lower and upper bounds, constrained by range_invariant.
     """
     min = Attribute("Lower bound")
     max = Attribute("Upper bound")
@@ -78,59 +91,70 @@ class IRange(Interface):
 @implementer(IRange)
 class Range(object):
     """
+    A simple range implementing IRange.
     """
 
     def __init__(self, min, max):
         """
+        Store the lower and upper bounds.
         """
         self.min, self.max = min, max
 
     def __repr__(self):
         """
+        Return a representation showing both bounds.
         """
         return "Range(%s, %s)" % (self.min, self.max)
 
 
 class ISpecialCases(Interface):
     """
+    Interface with no adapters registered, so adapting to it fails.
     """
 
 
 class IPurity(Interface):
     """
+    Interface implemented by Practicality.
     """
 
 
 @implementer(IPurity)
 class Practicality(object):
     """
+    Implements IPurity, so adapting it to IPurity returns itself.
     """
 
 
 class IErrors(Interface):
     """
+    Interface for errors; required by the adapters and subscribers below.
     """
 
 
 class ISilence(Interface):
     """
+    Interface for silence; provided by the 'should not' registration.
     """
 
 
 class IPass(IErrors):
     """
+    Interface provided by the Explicit multi-adapter of errors and silence.
     """
 
 
 @implementer(IErrors)
 class Errors:
     """
+    A class that implements IErrors.
     """
 
 
 @implementer(ISilence)
 class Silence:
     """
+    A class that implements ISilence.
     """
 
 
@@ -138,22 +162,26 @@ class Silence:
 
 class IAmbiguity(Interface):
     """
+    Interface required by the subscription that refuses to guess.
     """
 
 
 class IGuess(Interface):
     """
+    Interface provided by the subscription that refuses to guess.
     """
 
 
 def handler(event):
     """
+    Event handler subscribed for IErrors; prints the event it receives.
     """
     print('handler', event)
 
 
 class IFile(Interface):
     """
+    A file with a body.
     """
     body = Attribute('Contents of the file.')
 
@@ -161,12 +189,15 @@ class IFile(Interface):
 @implementer(IFile)
 class File(object):
     """
+    A file implementing IFile with a fixed body.
     """
     body = "Uniquely communicate economically sound infrastructures"
 
 
 def hook(provided, object):
     """
+    Adapter hook: look up an adapter from what object provides to the
+    provided interface in the local registry and apply it to object.
     """
     adapter = registry.lookup1(providedBy(object), provided, '')
     return adapter(object)
@@ -174,31 +205,37 @@ def hook(provided, object):
 
 class ISize(Interface):
     """
+    Something that knows its size.
     """
 
     def getSize():
         """
+        Return the size.
         """
 
 
 @implementer(ISize)
 class FileSize(object):
     """
+    Adapts an IFile to ISize.
     """
 
     def __init__(self, context):
         """
+        Store the adapted file as the context.
         """
         self.context = context
 
     def getSize(self):
         """
+        Return the length of the file's body.
         """
         return len(self.context.body)
 
 
 class INow(Interface):
     """
+    Interface with x and y attributes, used to demonstrate verifyObject.
     """
     x = Attribute("The X attribute")
     y = Attribute("The Y attribute")
@@ -206,45 +243,58 @@ class INow(Interface):
 
 class INever(INow):
     """
+    Extends INow, so implementers must also provide x and y.
     """
 
 
 @implementer(INow)
 class Never(object):
     """
+    Correctly implements INow: x on the class, y on the instance.
     """
     x = 1
 
     def __init__(self):
+        """
+        Set the y attribute.
+        """
         self.y = 2
 
 
 @implementer(INever)
 class RightNow(object):
+    """
+    Claims to implement INever but lacks y, so verifyObject fails.
+    """
     x = 1
 
 
 class IImplementation(Interface):
     """
+    An implementation that can explain itself.
     """
     def explain():
         """
+        Print an explanation of the implementation.
         """
 
 
 @implementer(IImplementation)
 class Implementation:
     """
+    An IImplementation registered as a utility below.
     """
 
     def __init__(self, implementation="easy to explain, it may query the "
         "good idea utility."):
         """
+        Store the description of the implementation.
         """
         self.implementation = implementation
 
     def explain(self):
         """
+        Print the description of the implementation.
         """
         print("If the implementation is", self.implementation)
 
@@ -266,6 +316,7 @@ print("%s\n\n" % TITLE)
 
 class IPerson(Interface):
     """
+    A person, who is beautiful.
     """
     beautiful = Attribute("Beautiful is an attribute of person.")
 
@@ -273,6 +324,7 @@ class IPerson(Interface):
 @implementer(IPerson)
 class Person(object):
     """
+    A person implementing IPerson.
     """
     beautiful = True
 
@@ -300,9 +352,13 @@ class Implicit(object):
     """
 @implementer(IExplicit)
 class Explicit:
+    """
+    Multi-adapter of errors and silence, registered to provide IPass.
+    """
 
     def __init__(self, errors, silence):
         """
+        Store the adapted errors and silence objects.
         """
         self.errors, self.silence = errors, silence
 
@@ -314,12 +370,14 @@ if IExplicit.implementedBy(Implicit):
 # 3) Simple is better than complex.
 class IComplex(Interface):
     """
+    Interface implemented by Complex and directly provided by complicated.
     """
 
 
 @implementer(IComplex)
 class Complex:
     """
+    A class that implements IComplex.
     """
 
 
@@ -340,6 +398,7 @@ for interface in directlyProvidedBy(complicated).interfaces():
 @implementer_only(INested)
 class Flat(Complex):
     """
+    Subclasses Complex but implements only INested, not IComplex.
     """
 
 interfaces = [interface for interface in implementedBy(Flat).interfaces()]

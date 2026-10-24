@@ -7,6 +7,7 @@ from zope.interface.verify import verifyObject
 
 class TestSuite(TestCase):  # Not really a test suite
     """
+    Tests for the objects defined in other.py.
     """
 
     def test_beautiful(self):
