@@ -11,6 +11,7 @@
 - Run the tests with pytest; add a `test` dependency group [aclark]
 - Make `other` a package in a `src` layout, with tests in `tests/` [aclark]
 - Reorganize the tutorial so each section defines what it uses [aclark]
+- Trim boilerplate from the tutorial: dataclasses instead of assign-only `__init__` methods, one-line docstrings, `size()` instead of `getSize()` [aclark]
 - Drop `MANIFEST.in` and `requirements.txt`; add Python version
   classifiers, keywords and project URLs [aclark]
 - Add background, installation and development sections to the README [aclark]
