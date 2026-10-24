@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.0.2 (unreleased)
+## 2.1.0 (2026/10/23)
 
 - Declare `zope.interface` as a direct dependency [aclark]
 - Add a `dev` dependency group with `prek` [aclark]
@@ -13,6 +13,7 @@
 - Reorganize the tutorial so each section defines what it uses [aclark]
 - Trim boilerplate from the tutorial: dataclasses instead of assign-only `__init__` methods, one-line docstrings, `size()` instead of `getSize()` [aclark]
 - Explain in each section's banner how its line of the Zen becomes ZCA code [aclark]
+- Make section 3 literally true: `ISimple` is provided by a `Complex` instance [aclark]
 - Drop `MANIFEST.in` and `requirements.txt`; add Python version
   classifiers, keywords and project URLs [aclark]
 - Add background, installation and development sections to the README [aclark]
