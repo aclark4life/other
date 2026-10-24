@@ -46,13 +46,6 @@ class INested(Interface):
     """
 
 
-@implementer(INested)
-class Nested:
-    """
-    A class that implements INested.
-    """
-
-
 class ISparse(Interface):
     """
     Marker interface used to demonstrate tagged values.
@@ -159,6 +152,19 @@ class Silence:
     """
 
 
+@implementer(IPass)
+class Explicit:
+    """
+    Multi-adapter of errors and silence, registered to provide IPass.
+    """
+
+    def __init__(self, errors, silence):
+        """
+        Store the adapted errors and silence objects.
+        """
+        self.errors, self.silence = errors, silence
+
+
 class IAmbiguity(Interface):
     """
     Interface required by the subscription that refuses to guess.
@@ -171,11 +177,16 @@ class IGuess(Interface):
     """
 
 
+handled = []
+
+
 def handler(event):
     """
-    Event handler subscribed for IErrors; prints the event it receives.
+    Event handler subscribed for IErrors; records the event it receives.
+    Its return value is discarded, as handlers' always are.
     """
-    print("handler", event)
+    handled.append(event)
+    return "output"
 
 
 class IFile(Interface):
@@ -199,9 +210,12 @@ def hook(provided, object):
     """
     Adapter hook: look up an adapter from what object provides to the
     provided interface in the local registry and apply it to object.
+    Return None when there is no adapter, so other hooks get a turn.
     """
     adapter = registry.lookup1(providedBy(object), provided, "")
-    return adapter(object)
+    if adapter is not None:
+        return adapter(object)
+    return None
 
 
 class ISize(Interface):
@@ -339,7 +353,7 @@ class Person:
 
 
 person = Person()
-if hasattr(person, "beautiful"):
+if verifyObject(IPerson, person):
     print(IPerson["beautiful"].__doc__)
 
 
@@ -360,19 +374,6 @@ class Implicit:
     provide interfaces that their classes implement [2]. (Objects can provide
     interfaces directly, in addition to what their classes implement.)
     """
-
-
-@implementer(IExplicit)
-class Explicit:
-    """
-    Multi-adapter of errors and silence, registered to provide IPass.
-    """
-
-    def __init__(self, errors, silence):
-        """
-        Store the adapted errors and silence objects.
-        """
-        self.errors, self.silence = errors, silence
 
 
 if IExplicit.implementedBy(Implicit):
@@ -447,12 +448,15 @@ if IPurity(practicality) is practicality:
 
 
 # 10) Errors should never pass silently.
-# Register an object that depends on IErrors and provides ISilence
-registry = AdapterRegistry()  # XXX Logic below is not quite right
+# Register a value that requires IErrors and provides ISilence. Lookups
+# find it for specifications that extend IErrors (IPass does), but not for
+# ones that don't (Interface, which IErrors extends, not the other way round).
+registry = AdapterRegistry()
 registry.register([IErrors], ISilence, "should not", "pass")
 if (
     registry.lookup([IErrors], ISilence, "should not") == "pass"
-    and registry.lookup([Interface], ISilence) is None
+    and registry.lookup([IPass], ISilence, "should not") == "pass"
+    and registry.lookup([Interface], ISilence, "should not") is None
 ):
     print(
         "Errors should never require a specification that doesn’t extend "
@@ -466,7 +470,7 @@ silence = Silence()
 registry.register([IErrors, ISilence], IPass, "", Explicit)
 explicit = registry.queryMultiAdapter((errors, silence), IPass)
 if (
-    explicit.__class__.__name__ == "Explicit"
+    IPass.providedBy(explicit)
     and explicit.errors is errors
     and explicit.silence is silence
 ):
@@ -485,8 +489,10 @@ if "refuse the temptation to guess" in [
 
 
 # 13) There should be one-- and preferably only one --obvious way to do it.
+# Subscribers that provide None are handlers: calling subscribers() runs
+# them all and throws away whatever they return.
 registry.subscribe([IErrors], None, handler)
-if registry.subscriptions([IErrors], None) == [handler]:
+if registry.subscribers((errors,), None) == () and handled == [errors]:
     print("There should be none-- and preferably only zero --output from a handler.")
 
 

@@ -13,6 +13,15 @@ Changes
 - Add background, installation and development sections to the README
   [aclark]
 
+- Fix the adapter hook breaking failed adaptation process-wide after import
+  [aclark]
+
+- Make sections 1, 10, 11 and 13 demonstrate what their lines describe
+  [aclark]
+
+- Test the full output against the README, and the adapter hook fix
+  [aclark]
+
 2.0.1 (2026/10/22)
 ------------------
 
