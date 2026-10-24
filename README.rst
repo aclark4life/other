@@ -15,8 +15,8 @@ Each line of the Zen is rewritten around a ZCA concept and then
 demonstrated with working ``zope.interface`` and ``zope.component`` code:
 interfaces and the objects that implement or provide them, invariants,
 tagged values, adapters and multi-adapters, subscribers, adapter hooks,
-verification and utilities. Read `other.py`_ from top to bottom to see how
-each line is produced.
+verification and utilities. Read ``other.py`` in the `repository`_ from top
+to bottom to see how each line is produced.
 
 It was written in 2012, based on the ``zope.interface`` and
 ``zope.component`` documentation, and updated for Python 3 in 2026.
@@ -86,6 +86,6 @@ To run every hook against every file (this may fix and reformat files)::
 .. _Zope Component Architecture: https://zopecomponent.readthedocs.io/
 .. _The Zen of Python: https://peps.python.org/pep-0020/
 .. _that: https://pypi.org/project/that/
-.. _other.py: https://github.com/aclark4life/other/blob/master/other.py
+.. _repository: https://github.com/aclark4life/other
 .. _ruff: https://docs.astral.sh/ruff/
 .. _prek: https://prek.j178.dev/
