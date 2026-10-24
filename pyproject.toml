@@ -3,7 +3,7 @@ requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "other"  # The other: get it?!
+name = "other"
 version = "2.0.1"
 description = "The Zen of Zope, by Alex Clark"
 authors = [{ name = "Alex Clark", email = "aclark@aclark.net" }]
@@ -11,8 +11,6 @@ license = "MIT"
 license-files = ["LICENSE"]
 requires-python = ">=3.10"
 dependencies = [
-    # This: included in the stdlib
-    # That: pip install that
     "zope.component",
     "zope.interface",
 ]
