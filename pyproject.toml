@@ -12,7 +12,7 @@ license-files = ["LICENSE"]
 requires-python = ">=3.10"
 dependencies = [
     # This: included in the stdlib
-    "that",  # That: included for fun
+    # That: pip install that
     "zope.component",
     "zope.interface",
 ]
