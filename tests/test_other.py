@@ -22,9 +22,6 @@ def readme_output():
 
 
 def test_beautiful():
-    """
-    Verify object has a beautiful attribute
-    """
     assert verifyObject(IPerson, Person())
 
 
