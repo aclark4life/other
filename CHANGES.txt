@@ -10,6 +10,10 @@ Changes
 - Add a ``dev`` dependency group with ``prek``
   [aclark]
 
+- Drop ``MANIFEST.in`` and ``requirements.txt``; add Python version
+  classifiers, keywords and project URLs
+  [aclark]
+
 - Add background, installation and development sections to the README
   [aclark]
 
