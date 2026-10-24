@@ -83,9 +83,15 @@ To run every hook against every file (this may fix and reformat files)::
 
     $ prek run --all-files
 
+License
+-------
+
+MIT. See `LICENSE`_.
+
 .. _Zope Component Architecture: https://zopecomponent.readthedocs.io/
 .. _The Zen of Python: https://peps.python.org/pep-0020/
 .. _that: https://pypi.org/project/that/
 .. _repository: https://github.com/aclark4life/other
 .. _ruff: https://docs.astral.sh/ruff/
 .. _prek: https://prek.j178.dev/
+.. _LICENSE: https://github.com/aclark4life/other/blob/main/LICENSE

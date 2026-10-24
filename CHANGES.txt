@@ -10,6 +10,9 @@ Changes
 - Add a ``dev`` dependency group with ``prek``
   [aclark]
 
+- License under MIT
+  [aclark]
+
 - Drop ``MANIFEST.in`` and ``requirements.txt``; add Python version
   classifiers, keywords and project URLs
   [aclark]
