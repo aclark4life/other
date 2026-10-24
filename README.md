@@ -14,7 +14,7 @@ Each line of the Zen is rewritten around a ZCA concept and then
 demonstrated with working `zope.interface` and `zope.component` code:
 interfaces and the objects that implement or provide them, invariants,
 tagged values, adapters and multi-adapters, subscribers, adapter hooks,
-verification and utilities. Read `other.py` in the
+verification and utilities. Read `src/other/__init__.py` in the
 [repository](https://github.com/aclark4life/other) from top to bottom to see
 how each line is produced.
 

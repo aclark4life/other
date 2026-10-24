@@ -38,8 +38,8 @@ Funding = "https://github.com/sponsors/aclark4life"
 test = ["pytest"]
 dev = [{ include-group = "test" }, "prek"]
 
-[tool.setuptools]
-py-modules = ["other"]
+[tool.pytest.ini_options]
+testpaths = ["tests"]
 
 [tool.setuptools.dynamic]
 readme = { file = ["README.md", "CHANGELOG.md"], content-type = "text/markdown" }
