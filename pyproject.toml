@@ -12,6 +12,7 @@ dependencies = [
     # This: included in the stdlib
     "that",  # That: included for fun
     "zope.component",
+    "zope.interface",
 ]
 classifiers = [
     "Framework :: Zope",
@@ -19,6 +20,9 @@ classifiers = [
     "Programming Language :: Python :: 3 :: Only",
 ]
 dynamic = ["readme"]
+
+[dependency-groups]
+dev = ["prek"]
 
 [project.urls]
 Homepage = "https://github.com/aclark4life/other"
