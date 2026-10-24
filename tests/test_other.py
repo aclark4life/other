@@ -9,14 +9,14 @@ from zope.interface.verify import verifyObject
 
 from other import IPerson, Person
 
-HERE = Path(__file__).parent
+ROOT = Path(__file__).parent.parent
 
 
 def readme_output():
     """
     Return the sample output shown in the README's Usage section.
     """
-    readme = (HERE / "README.md").read_text(encoding="utf-8")
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
     match = re.search(r"\$ python -m other\n(.*?)\n```", readme, re.DOTALL)
     return match.group(1)
 
@@ -37,7 +37,7 @@ def test_output_matches_readme():
         [sys.executable, "-m", "other"],
         capture_output=True,
         check=True,
-        cwd=HERE,
+        cwd=ROOT,
         encoding="utf-8",
     )
     assert result.stdout.rstrip("\n") == readme_output()
