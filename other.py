@@ -21,8 +21,6 @@ from zope.interface.exceptions import BrokenImplementation
 from zope.interface.interface import adapter_hooks
 from zope.interface.verify import verifyObject
 
-TITLE = "The Zen of Zope, by Alex Clark"
-
 # This is a crash course on the Zope Component Architecture (ZCA), based on
 # http://docs.zope.org/zope.interface/README.html and
 # http://docs.zope.org/zope.component/index.html, and heavily inspired by
@@ -322,7 +320,7 @@ class Implementation:
 # ------------------------------------------------------------------------------
 
 
-print(f"{TITLE}\n\n")
+print("The Zen of Zope, by Alex Clark\n\n")
 
 
 # 1) Beautiful is better than ugly.
