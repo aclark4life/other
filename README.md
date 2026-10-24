@@ -73,10 +73,10 @@ $ cd other
 $ pip install -e . --group dev
 ```
 
-Run the tests from the root of the clone:
+Run the tests with [pytest](https://docs.pytest.org/) from the root of the clone:
 
 ```console
-$ python -m unittest -v tests
+$ pytest
 ```
 
 Linting and formatting use [ruff](https://docs.astral.sh/ruff/), run through

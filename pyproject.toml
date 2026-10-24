@@ -35,7 +35,8 @@ Changelog = "https://github.com/aclark4life/other/blob/main/CHANGELOG.md"
 Funding = "https://github.com/sponsors/aclark4life"
 
 [dependency-groups]
-dev = ["prek"]
+test = ["pytest"]
+dev = [{ include-group = "test" }, "prek"]
 
 [tool.setuptools]
 py-modules = ["other"]
