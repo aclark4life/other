@@ -28,8 +28,8 @@ Installation
 
     $ pip install other
 
-This also installs ``zope.component``, ``zope.interface`` and, for fun,
-``that``.
+This also installs ``zope.component`` and ``zope.interface``. For the
+Anti-Zen, ``pip install that``.
 
 Usage
 -----
