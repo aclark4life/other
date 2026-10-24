@@ -5,8 +5,8 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "other"
 version = "2.0.1"
-description = "The Zen of Zope, by Alex Clark"
-authors = [{ name = "Alex Clark", email = "aclark@aclark.net" }]
+description = "The Zen of Zope, by Jeffrey 'Alex' Clark"
+authors = [{ name = "Jeffrey 'Alex' Clark", email = "aclark@aclark.net" }]
 license = "MIT"
 license-files = ["LICENSE"]
 requires-python = ">=3.10"

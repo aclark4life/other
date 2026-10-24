@@ -16,6 +16,9 @@ Changes
 - Drop the ``that`` dependency; it was never imported
   [aclark]
 
+- Use the full author name, Jeffrey 'Alex' Clark
+  [aclark]
+
 - Drop ``MANIFEST.in`` and ``requirements.txt``; add Python version
   classifiers, keywords and project URLs
   [aclark]
