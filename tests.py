@@ -16,10 +16,9 @@ def readme_output():
     """
     Return the sample output shown in the README's Usage section.
     """
-    readme = (HERE / "README.rst").read_text(encoding="utf-8")
-    match = re.search(r"\$ python -m other\n(.*?)\n\n(?=\S)", readme, re.DOTALL)
-    block = match.group(1)
-    return "\n".join(line.removeprefix("    ") for line in block.splitlines())
+    readme = (HERE / "README.md").read_text(encoding="utf-8")
+    match = re.search(r"\$ python -m other\n(.*?)\n```", readme, re.DOTALL)
+    return match.group(1)
 
 
 class TestSuite(TestCase):  # Not really a test suite
