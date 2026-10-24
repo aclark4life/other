@@ -29,8 +29,7 @@ documentation, and updated for Python 3 in 2026.
 $ pip install other
 ```
 
-This also installs `zope.component` and `zope.interface`. For the Anti-Zen,
-`pip install that`.
+This also installs `zope.component` and `zope.interface`.
 
 ## Usage
 
