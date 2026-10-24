@@ -67,7 +67,7 @@ if verifyObject(IPerson, Person()):
 
 
 class IExplicit(Interface):
-    """An interface, implemented by a class."""
+    pass
 
 
 @implementer(IExplicit)
@@ -87,7 +87,7 @@ if IExplicit.implementedBy(Implicit):
 
 
 class IComplex(Interface):
-    """An interface, provided by instances of a class that implements it."""
+    pass
 
 
 @implementer(IComplex)
@@ -126,7 +126,7 @@ if IComplex in directlyProvidedBy(complicated):
 
 
 class INested(Interface):
-    """The only interface Flat implements."""
+    pass
 
 
 @implementer_only(INested)
@@ -146,7 +146,7 @@ if list(implementedBy(Flat)) == [INested]:
 
 
 class ISparse(Interface):
-    """An interface with a tagged value."""
+    pass
 
 
 ISparse.setTaggedValue("dense", "Sparse has tagged value dense.")
@@ -199,7 +199,7 @@ except RangeError:
 
 
 class ISpecialCases(Interface):
-    """An interface nothing adapts to."""
+    pass
 
 
 try:
@@ -217,7 +217,7 @@ except TypeError:
 
 
 class IPurity(Interface):
-    """An interface Practicality provides."""
+    pass
 
 
 @implementer(IPurity)
@@ -241,15 +241,15 @@ if IPurity(practicality) is practicality:
 
 
 class IErrors(Interface):
-    """Errors."""
+    pass
 
 
 class ISilence(Interface):
-    """Silence."""
+    pass
 
 
 class IPass(IErrors):
-    """Errors that pass, explicitly silenced."""
+    pass
 
 
 registry = AdapterRegistry()
@@ -306,11 +306,11 @@ if IPass.providedBy(explicit) and explicit == Explicit(errors, silence):
 
 
 class IAmbiguity(Interface):
-    """Ambiguity."""
+    pass
 
 
 class IGuess(Interface):
-    """A guess."""
+    pass
 
 
 registry.subscribe([IAmbiguity], IGuess, "refuse the temptation to guess")
@@ -418,7 +418,7 @@ if verifyObject(INow, Never()):
 
 
 class INever(INow):
-    """Everything INow has."""
+    pass
 
 
 @implementer(INever)
