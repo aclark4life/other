@@ -34,9 +34,9 @@ This also installs ``zope.component``, ``zope.interface`` and, for fun,
 Usage
 -----
 
-Import it::
+Run it from the command line (``import other`` prints the same thing)::
 
-    >>> import other
+    $ python -m other
     The Zen of Zope, by Alex Clark
 
 
@@ -60,20 +60,17 @@ Import it::
     If the implementation is easy to explain, it may query the good idea utility.
     Implicit namespace packages are one honking great idea -- let's do more of those!
 
-Or run it from the command line::
-
-    $ python -m other
-
 Development
 -----------
 
-Clone the repository and install it in editable mode::
+Clone the repository and install it in editable mode, along with the
+``dev`` dependency group (pip 25.1 or later)::
 
     $ git clone https://github.com/aclark4life/other.git
     $ cd other
-    $ pip install -e .
+    $ pip install -e . --group dev
 
-Run the tests::
+Run the tests from the root of the clone::
 
     $ python -m unittest -v tests
 
@@ -81,6 +78,9 @@ Linting and formatting use `ruff`_, run through `prek`_ pre-commit hooks.
 Install the hooks once per clone, and they run on every commit::
 
     $ prek install
+
+To run every hook against every file (this may fix and reformat files)::
+
     $ prek run --all-files
 
 .. _Zope Component Architecture: https://zopecomponent.readthedocs.io/

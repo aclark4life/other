@@ -1,6 +1,18 @@
 Changes
 =======
 
+2.0.2 (unreleased)
+------------------
+
+- Declare ``zope.interface`` as a direct dependency
+  [aclark]
+
+- Add a ``dev`` dependency group with ``prek``
+  [aclark]
+
+- Add background, installation and development sections to the README
+  [aclark]
+
 2.0.1 (2026/10/22)
 ------------------
 
