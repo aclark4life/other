@@ -94,24 +94,23 @@ if IExplicit.implementedBy(Implicit):
 # 3. Simple is better than complex.
 #    => Simple is provided by complex.
 #
-# The joke: The object named simple is an instance of Complex, so it provides
-# IComplex. (Strictly, simple provides complex, not the other way round; the
-# line swaps them to keep the Zen's word order.)
+# The joke: Simple is the interface ISimple, and a Complex instance provides it
+# because its class implements it, so simple really is provided by complex.
 #
 # The ZCA: An instance provides the interfaces its class implements.
 # ------------------------------------------------------------------------------
 
 
-class IComplex(Interface):
+class ISimple(Interface):
     pass
 
 
-@implementer(IComplex)
+@implementer(ISimple)
 class Complex:
     pass
 
 
-if IComplex.providedBy(Complex()):
+if ISimple.providedBy(Complex()):
     print("Simple is provided by complex.")
 
 
@@ -126,6 +125,10 @@ if IComplex.providedBy(Complex()):
 # The ZCA: An object can also provide an interface directly, whatever its class
 # implements.
 # ------------------------------------------------------------------------------
+
+
+class IComplex(Interface):
+    pass
 
 
 class Complicated:
@@ -143,7 +146,7 @@ if IComplex in directlyProvidedBy(complicated):
 #    => Flat only implements nested.
 #
 # The joke: Flat inherits from Complex, but implementer_only makes it shed
-# IComplex and implement nothing but INested. Nesting wins, but only just.
+# ISimple and implement nothing but INested. Nesting wins, but only just.
 #
 # The ZCA: implementer_only replaces the interfaces a class inherits, instead
 # of adding to them.
