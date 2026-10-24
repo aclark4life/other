@@ -1,12 +1,13 @@
-from other import IPerson
-from other import Person
-from unittest import TestCase
-from unittest import main
+from unittest import TestCase, main
+
 from zope.interface.verify import verifyObject
+
+from other import IPerson, Person
 
 
 class TestSuite(TestCase):  # Not really a test suite
     """
+    Tests for the objects defined in other.py.
     """
 
     def test_beautiful(self):
@@ -17,5 +18,5 @@ class TestSuite(TestCase):  # Not really a test suite
         self.assertTrue(verifyObject(IPerson, person))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
