@@ -1,5 +1,5 @@
-The Zen of Zope, by Alex Clark
-==============================
+The Zen of Zope, by Jeffrey 'Alex' Clark
+========================================
 
 A crash course on the `Zope Component Architecture`_ (ZCA), told through the
 19 aphorisms of `The Zen of Python`_.
@@ -37,7 +37,7 @@ Usage
 Run it from the command line (``import other`` prints the same thing)::
 
     $ python -m other
-    The Zen of Zope, by Alex Clark
+    The Zen of Zope, by Jeffrey 'Alex' Clark
 
 
     Beautiful is an attribute of person.

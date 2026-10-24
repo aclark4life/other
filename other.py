@@ -27,7 +27,7 @@ from zope.interface.verify import verifyObject
 # The Anti-Zen of Python, by Daniel Greenfeld and
 # The Zen of Python, by Tim Peters.
 # Special thanks to Guido Van Rossum for Python, and Jim Fulton for Zope.
-# Copyright (C) 2012 Alex Clark
+# Copyright (C) 2012 Jeffrey 'Alex' Clark
 # Released under the MIT License; see LICENSE.
 
 
@@ -320,7 +320,7 @@ class Implementation:
 # ------------------------------------------------------------------------------
 
 
-print("The Zen of Zope, by Alex Clark\n\n")
+print("The Zen of Zope, by Jeffrey 'Alex' Clark\n\n")
 
 
 # 1) Beautiful is better than ugly.
