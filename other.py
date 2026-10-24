@@ -28,7 +28,7 @@ from zope.interface.verify import verifyObject
 # The Zen of Python, by Tim Peters.
 # Special thanks to Guido Van Rossum for Python, and Jim Fulton for Zope.
 # Copyright (C) 2012 Alex Clark
-# All rights reserved
+# Released under the MIT License; see LICENSE.
 
 
 class Complicated:
