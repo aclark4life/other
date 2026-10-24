@@ -4,17 +4,18 @@ told through the aphorisms of The Zen of Python.
 
 Importing this package prints them, the way ``import this`` prints the Zen
 of Python. Each numbered section below is self-contained: its line of the
-Zen, a note on the ZCA concept it shows, the interfaces and classes it
-needs, and the check that prints its line. Read it from top to bottom.
+Zen, a note on the ZCA concept it shows, what it defines, and the check that
+prints its line. Read it from top to bottom.
 """
 
-# Based on http://docs.zope.org/zope.interface/README.html and
-# http://docs.zope.org/zope.component/index.html, and heavily inspired by
-# The Anti-Zen of Python, by Daniel Greenfeld and
-# The Zen of Python, by Tim Peters.
-# Special thanks to Guido Van Rossum for Python, and Jim Fulton for Zope.
+# Based on the zope.interface and zope.component documentation, and heavily
+# inspired by The Anti-Zen of Python, by Daniel Greenfeld and The Zen of
+# Python, by Tim Peters. Special thanks to Guido Van Rossum for Python, and
+# Jim Fulton for Zope.
 # Copyright (C) 2012 Jeffrey 'Alex' Clark
 # Released under the MIT License; see LICENSE.
+
+from dataclasses import dataclass
 
 from zope.component import provideUtility, queryUtility
 from zope.interface import (
@@ -40,31 +41,21 @@ print("The Zen of Zope, by Jeffrey 'Alex' Clark\n\n")
 # ------------------------------------------------------------------------------
 # 1. Beautiful is better than ugly.
 #
-# Interfaces specify the behavior of the objects that provide them, through
-# documentation, attribute definitions and invariants. verifyObject checks
-# that an object really has what its interface promises.
+# An interface specifies behavior: documentation, attributes, invariants.
+# verifyObject checks that an object has what its interface promises.
 # ------------------------------------------------------------------------------
 
 
 class IPerson(Interface):
-    """
-    A person, who is beautiful.
-    """
-
     beautiful = Attribute("Beautiful is an attribute of person.")
 
 
 @implementer(IPerson)
 class Person:
-    """
-    A person implementing IPerson.
-    """
-
     beautiful = True
 
 
-person = Person()
-if verifyObject(IPerson, person):
+if verifyObject(IPerson, Person()):
     print(IPerson["beautiful"].__doc__)
 
 
@@ -76,21 +67,12 @@ if verifyObject(IPerson, person):
 
 
 class IExplicit(Interface):
-    """
-    We say that objects provide interfaces. If an object provides an interface
-    then the interface specifies the behavior of the object. In other words,
-    interfaces specify the behavior of the objects that provide them.
-    """
+    """An interface, implemented by a class."""
 
 
 @implementer(IExplicit)
 class Implicit:
-    """
-    We normally say that classes implement interfaces. If a class implements an
-    interface, then the instances of the class provide the interface. Objects
-    provide interfaces that their classes implement. (Objects can provide
-    interfaces directly, in addition to what their classes implement.)
-    """
+    pass
 
 
 if IExplicit.implementedBy(Implicit):
@@ -105,20 +87,15 @@ if IExplicit.implementedBy(Implicit):
 
 
 class IComplex(Interface):
-    """
-    Interface implemented by Complex and directly provided by complicated.
-    """
+    """An interface, provided by instances of a class that implements it."""
 
 
 @implementer(IComplex)
 class Complex:
-    """
-    A class that implements IComplex.
-    """
+    pass
 
 
-simple = Complex()
-if IComplex.providedBy(simple):
+if IComplex.providedBy(Complex()):
     print("Simple is provided by complex.")
 
 
@@ -131,17 +108,13 @@ if IComplex.providedBy(simple):
 
 
 class Complicated:
-    """
-    A plain class that implements nothing; its instance is made to provide
-    IComplex directly.
-    """
+    pass
 
 
 complicated = Complicated()
 directlyProvides(complicated, IComplex)
-for interface in directlyProvidedBy(complicated).interfaces():
-    if interface.getName() == "IComplex":
-        print("Complex is directly provided by complicated.")
+if IComplex in directlyProvidedBy(complicated):
+    print("Complex is directly provided by complicated.")
 
 
 # ------------------------------------------------------------------------------
@@ -153,20 +126,15 @@ for interface in directlyProvidedBy(complicated).interfaces():
 
 
 class INested(Interface):
-    """
-    Marker interface that Flat implements to the exclusion of all others.
-    """
+    """The only interface Flat implements."""
 
 
 @implementer_only(INested)
 class Flat(Complex):
-    """
-    Subclasses Complex but implements only INested, not IComplex.
-    """
+    pass
 
 
-interfaces = [interface for interface in implementedBy(Flat).interfaces()]
-if len(interfaces) == 1 and interfaces[0].getName() == "INested":
+if list(implementedBy(Flat)) == [INested]:
     print("Flat only implements nested.")
 
 
@@ -178,14 +146,11 @@ if len(interfaces) == 1 and interfaces[0].getName() == "INested":
 
 
 class ISparse(Interface):
-    """
-    Marker interface used to demonstrate tagged values.
-    """
+    """An interface with a tagged value."""
 
 
 ISparse.setTaggedValue("dense", "Sparse has tagged value dense.")
-tags = ISparse.getTaggedValueTags()
-if "dense" in tags:
+if "dense" in ISparse.getTaggedValueTags():
     print(ISparse.getTaggedValue("dense"))
 
 
@@ -198,52 +163,25 @@ if "dense" in tags:
 
 
 class RangeError(Invalid):
-    """
-    Raised when a range's upper bound is less than its lower bound.
-    """
-
-    def __repr__(self):
-        """
-        Return a representation including the offending object.
-        """
-        return f"RangeError({self.args[0]!r})"
+    """The upper bound is below the lower bound."""
 
 
 def range_invariant(ob):
-    """
-    Invariant for IRange: raise RangeError if ob.max is less than ob.min.
-    """
     if ob.max < ob.min:
         raise RangeError(ob)
 
 
 class IRange(Interface):
-    """
-    A range with lower and upper bounds, constrained by range_invariant.
-    """
-
     min = Attribute("Lower bound")
     max = Attribute("Upper bound")
     invariant(range_invariant)
 
 
 @implementer(IRange)
+@dataclass
 class Range:
-    """
-    A simple range implementing IRange.
-    """
-
-    def __init__(self, min, max):
-        """
-        Store the lower and upper bounds.
-        """
-        self.min, self.max = min, max
-
-    def __repr__(self):
-        """
-        Return a representation showing both bounds.
-        """
-        return f"Range({self.min}, {self.max})"
+    min: int
+    max: int
 
 
 try:
@@ -261,9 +199,7 @@ except RangeError:
 
 
 class ISpecialCases(Interface):
-    """
-    Interface with no adapters registered, so adapting to it fails.
-    """
+    """An interface nothing adapts to."""
 
 
 try:
@@ -281,16 +217,12 @@ except TypeError:
 
 
 class IPurity(Interface):
-    """
-    Interface implemented by Practicality.
-    """
+    """An interface Practicality provides."""
 
 
 @implementer(IPurity)
 class Practicality:
-    """
-    Implements IPurity, so adapting it to IPurity returns itself.
-    """
+    pass
 
 
 practicality = Practicality()
@@ -309,21 +241,15 @@ if IPurity(practicality) is practicality:
 
 
 class IErrors(Interface):
-    """
-    Interface for errors; required by the adapters and subscribers below.
-    """
+    """Errors."""
 
 
 class ISilence(Interface):
-    """
-    Interface for silence; provided by the 'should not' registration.
-    """
+    """Silence."""
 
 
 class IPass(IErrors):
-    """
-    Interface provided by the Explicit multi-adapter of errors and silence.
-    """
+    """Errors that pass, explicitly silenced."""
 
 
 registry = AdapterRegistry()
@@ -348,40 +274,27 @@ if (
 
 @implementer(IErrors)
 class Errors:
-    """
-    A class that implements IErrors.
-    """
+    pass
 
 
 @implementer(ISilence)
 class Silence:
-    """
-    A class that implements ISilence.
-    """
+    pass
 
 
 @implementer(IPass)
+@dataclass
 class Explicit:
-    """
-    Multi-adapter of errors and silence, registered to provide IPass.
-    """
+    """Adapts errors and silence, together, to IPass."""
 
-    def __init__(self, errors, silence):
-        """
-        Store the adapted errors and silence objects.
-        """
-        self.errors, self.silence = errors, silence
+    errors: Errors
+    silence: Silence
 
 
-errors = Errors()
-silence = Silence()
+errors, silence = Errors(), Silence()
 registry.register([IErrors, ISilence], IPass, "", Explicit)
 explicit = registry.queryMultiAdapter((errors, silence), IPass)
-if (
-    IPass.providedBy(explicit)
-    and explicit.errors is errors
-    and explicit.silence is silence
-):
+if IPass.providedBy(explicit) and explicit == Explicit(errors, silence):
     print("Unless explicit is a multi-adapter.")
 
 
@@ -393,15 +306,11 @@ if (
 
 
 class IAmbiguity(Interface):
-    """
-    Interface required by the subscription that refuses to guess.
-    """
+    """Ambiguity."""
 
 
 class IGuess(Interface):
-    """
-    Interface provided by the subscription that refuses to guess.
-    """
+    """A guess."""
 
 
 registry.subscribe([IAmbiguity], IGuess, "refuse the temptation to guess")
@@ -423,16 +332,12 @@ handled = []
 
 
 def handler(event):
-    """
-    Event handler subscribed for IErrors; records the event it receives.
-    Its return value is discarded, as handlers' always are.
-    """
     handled.append(event)
     return "output"
 
 
 registry.subscribe([IErrors], None, handler)
-if registry.subscribers((errors,), None) == () and handled == [errors]:
+if registry.subscribers([errors], None) == () and handled == [errors]:
     print("There should be none-- and preferably only zero --output from a handler.")
 
 
@@ -444,69 +349,39 @@ if registry.subscribers((errors,), None) == () and handled == [errors]:
 
 
 class IFile(Interface):
-    """
-    A file with a body.
-    """
-
     body = Attribute("Contents of the file.")
 
 
 @implementer(IFile)
 class File:
-    """
-    A file implementing IFile with a fixed body.
-    """
-
     body = "Uniquely communicate economically sound infrastructures"
 
 
 class ISize(Interface):
-    """
-    Something that knows its size.
-    """
-
-    def getSize():
-        """
-        Return the size.
-        """
+    def size():
+        """Return the size."""
 
 
 @implementer(ISize)
+@dataclass
 class FileSize:
-    """
-    Adapts an IFile to ISize.
-    """
+    """Adapts an IFile to ISize."""
 
-    def __init__(self, context):
-        """
-        Store the adapted file as the context.
-        """
-        self.context = context
+    context: File
 
-    def getSize(self):
-        """
-        Return the length of the file's body.
-        """
+    def size(self):
         return len(self.context.body)
 
 
-def hook(provided, object):
-    """
-    Adapter hook: look up an adapter from what object provides to the
-    provided interface in the local registry and apply it to object.
-    Return None when there is no adapter, so other hooks get a turn.
-    """
-    adapter = registry.lookup1(providedBy(object), provided, "")
-    if adapter is not None:
-        return adapter(object)
-    return None
+def hook(provided, ob):
+    """Adapt ob to provided using our registry, or return None if we can't."""
+    adapter = registry.lookup1(providedBy(ob), provided)
+    return adapter(ob) if adapter else None
 
 
 adapter_hooks.append(hook)
 registry.register([IFile], ISize, "", FileSize)
-f = File()
-size = ISize(f)
-if registry.lookup1(IFile, ISize, "")(f).getSize() == size.getSize():
+if isinstance(ISize(File()), FileSize):
     print(
         "Although that way may not be obvious at first unless you've "
         "registered an adapter hook."
@@ -521,31 +396,16 @@ if registry.lookup1(IFile, ISize, "")(f).getSize() == size.getSize():
 
 
 class INow(Interface):
-    """
-    Interface with x and y attributes, used to demonstrate verifyObject.
-    """
-
     x = Attribute("The X attribute")
     y = Attribute("The Y attribute")
 
 
 @implementer(INow)
 class Never:
-    """
-    Correctly implements INow: x on the class, y on the instance.
-    """
-
-    x = 1
-
-    def __init__(self):
-        """
-        Set the y attribute.
-        """
-        self.y = 2
+    x, y = 1, 2
 
 
-never = Never()
-if verifyObject(INow, never):
+if verifyObject(INow, Never()):
     print("Now is verified by never.")
 
 
@@ -558,23 +418,16 @@ if verifyObject(INow, never):
 
 
 class INever(INow):
-    """
-    Extends INow, so implementers must also provide x and y.
-    """
+    """Everything INow has."""
 
 
 @implementer(INever)
 class RightNow:
-    """
-    Claims to implement INever but lacks y, so verifyObject fails.
-    """
-
-    x = 1
+    x = 1  # but no y
 
 
-right_now = RightNow()
 try:
-    verifyObject(INever, right_now)
+    verifyObject(INever, RightNow())
 except BrokenImplementation:
     print("Although never is not implemented by *right* now.")
 
@@ -588,39 +441,24 @@ except BrokenImplementation:
 
 
 class IImplementation(Interface):
-    """
-    An implementation that can explain itself.
-    """
-
     def explain():
-        """
-        Print an explanation of the implementation.
-        """
+        """Print an explanation of the implementation."""
 
 
 @implementer(IImplementation)
+@dataclass
 class Implementation:
-    """
-    An IImplementation registered as a utility below.
-    """
-
-    def __init__(
-        self, implementation="easy to explain, it may query the good idea utility."
-    ):
-        """
-        Store the description of the implementation.
-        """
-        self.implementation = implementation
+    implementation: str = "easy to explain, it may query the good idea utility."
 
     def explain(self):
-        """
-        Print the description of the implementation.
-        """
         print("If the implementation is", self.implementation)
 
 
-bad_idea = Implementation("hard to explain, it queries the bad idea utility.")
-provideUtility(bad_idea, IImplementation, "bad idea")
+provideUtility(
+    Implementation("hard to explain, it queries the bad idea utility."),
+    IImplementation,
+    "bad idea",
+)
 queryUtility(IImplementation, "bad idea").explain()
 
 
@@ -628,8 +466,7 @@ queryUtility(IImplementation, "bad idea").explain()
 # 18. If the implementation is easy to explain, it may be a good idea.
 # ------------------------------------------------------------------------------
 
-good_idea = Implementation()
-provideUtility(good_idea, IImplementation, "good idea")
+provideUtility(Implementation(), IImplementation, "good idea")
 queryUtility(IImplementation, "good idea").explain()
 
 
