@@ -8,6 +8,7 @@
 - Drop the `that` dependency; it was never imported [aclark]
 - Use the full author name, Jeffrey 'Alex' Clark [aclark]
 - Convert the README to Markdown and rename `CHANGES.txt` to `CHANGELOG.md` [aclark]
+- Run the tests with pytest; add a `test` dependency group [aclark]
 - Drop `MANIFEST.in` and `requirements.txt`; add Python version
   classifiers, keywords and project URLs [aclark]
 - Add background, installation and development sections to the README [aclark]
