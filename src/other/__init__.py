@@ -3,9 +3,10 @@ The Zen of Zope: a crash course on the Zope Component Architecture (ZCA),
 told through the aphorisms of The Zen of Python.
 
 Importing this package prints them, the way ``import this`` prints the Zen
-of Python. Each numbered section below is self-contained: its line of the
-Zen, a note on the ZCA concept it shows, what it defines, and the check that
-prints its line. Read it from top to bottom.
+of Python. Each numbered section below is self-contained. Its banner gives
+the line of the Zen, the line it becomes (after =>), how the joke works, and
+the ZCA concept behind it; then come the definitions it uses and the check
+that prints its line. Read it from top to bottom.
 """
 
 # Based on the zope.interface and zope.component documentation, and heavily
@@ -40,9 +41,15 @@ print("The Zen of Zope, by Jeffrey 'Alex' Clark\n\n")
 
 # ------------------------------------------------------------------------------
 # 1. Beautiful is better than ugly.
+#    => Beautiful is an attribute of person.
 #
-# An interface specifies behavior: documentation, attributes, invariants.
-# verifyObject checks that an object has what its interface promises.
+# The joke: Comparisons become ZCA vocabulary. Instead of being better than
+# ugly, beautiful is an Attribute of IPerson, and the line printed is that
+# attribute's own documentation.
+#
+# The ZCA: An interface specifies behavior: documentation, attributes,
+# invariants. verifyObject checks that an object has what its interface
+# promises.
 # ------------------------------------------------------------------------------
 
 
@@ -61,8 +68,12 @@ if verifyObject(IPerson, Person()):
 
 # ------------------------------------------------------------------------------
 # 2. Explicit is better than implicit.
+#    => Explicit is implemented by implicit.
 #
-# Classes implement interfaces; their instances provide them.
+# The joke: "Better than" becomes "implemented by": the interface IExplicit is
+# implemented by the class Implicit, so the two rivals end up working together.
+#
+# The ZCA: Classes implement interfaces; their instances provide them.
 # ------------------------------------------------------------------------------
 
 
@@ -81,8 +92,13 @@ if IExplicit.implementedBy(Implicit):
 
 # ------------------------------------------------------------------------------
 # 3. Simple is better than complex.
+#    => Simple is provided by complex.
 #
-# An instance provides the interfaces its class implements.
+# The joke: The object named simple is an instance of Complex, so it provides
+# IComplex. (Strictly, simple provides complex, not the other way round; the
+# line swaps them to keep the Zen's word order.)
+#
+# The ZCA: An instance provides the interfaces its class implements.
 # ------------------------------------------------------------------------------
 
 
@@ -101,8 +117,13 @@ if IComplex.providedBy(Complex()):
 
 # ------------------------------------------------------------------------------
 # 4. Complex is better than complicated.
+#    => Complex is directly provided by complicated.
 #
-# An object can also provide an interface directly, whatever its class
+# The joke: Complicated's class implements nothing, but the complicated object
+# is told directly that it provides IComplex, so complex really is directly
+# provided by complicated.
+#
+# The ZCA: An object can also provide an interface directly, whatever its class
 # implements.
 # ------------------------------------------------------------------------------
 
@@ -119,9 +140,13 @@ if IComplex in directlyProvidedBy(complicated):
 
 # ------------------------------------------------------------------------------
 # 5. Flat is better than nested.
+#    => Flat only implements nested.
 #
-# implementer_only replaces the interfaces a class inherits, instead of
-# adding to them.
+# The joke: Flat inherits from Complex, but implementer_only makes it shed
+# IComplex and implement nothing but INested. Nesting wins, but only just.
+#
+# The ZCA: implementer_only replaces the interfaces a class inherits, instead
+# of adding to them.
 # ------------------------------------------------------------------------------
 
 
@@ -140,8 +165,13 @@ if list(implementedBy(Flat)) == [INested]:
 
 # ------------------------------------------------------------------------------
 # 6. Sparse is better than dense.
+#    => Sparse has tagged value dense.
 #
-# Interfaces can carry tagged values: arbitrary metadata stored on them.
+# The joke: Dense isn't sparse's rival here, just a piece of metadata: the tag
+# "dense" stored on ISparse, whose value is the line printed.
+#
+# The ZCA: Interfaces can carry tagged values: arbitrary metadata stored on
+# them.
 # ------------------------------------------------------------------------------
 
 
@@ -156,8 +186,12 @@ if "dense" in ISparse.getTaggedValueTags():
 
 # ------------------------------------------------------------------------------
 # 7. Readability counts.
+#    => Readability count is not in range.
 #
-# Invariants are conditions that must hold for an object to provide an
+# The joke: "Counts" turns into a count that's out of range: Range(2, 1) has
+# its upper bound below its lower one, so IRange's invariant fails.
+#
+# The ZCA: Invariants are conditions that must hold for an object to provide an
 # interface; validateInvariants raises when one fails.
 # ------------------------------------------------------------------------------
 
@@ -192,9 +226,14 @@ except RangeError:
 
 # ------------------------------------------------------------------------------
 # 8. Special cases aren't special enough to break the rules.
+#    => Special cases could not adapt the rules.
 #
-# Calling an interface adapts an object to it, and raises TypeError when
-# there is no way to.
+# The joke: Instead of breaking the rules, special cases try to adapt them:
+# ISpecialCases("the rules") asks the ZCA to adapt the string "the rules", and
+# fails, because nothing adapts strings to ISpecialCases.
+#
+# The ZCA: Calling an interface adapts an object to it, and raises TypeError
+# when there is no way to.
 # ------------------------------------------------------------------------------
 
 
@@ -210,9 +249,13 @@ except TypeError:
 
 # ------------------------------------------------------------------------------
 # 9. Although practicality beats purity.
+#    => Practicality implements purity.
 #
-# Adapting an object to an interface it already provides returns the object
-# itself.
+# The joke: Practicality doesn't beat purity, it implements IPurity, so
+# adapting it to purity changes nothing: you get practicality straight back.
+#
+# The ZCA: Adapting an object to an interface it already provides returns the
+# object itself.
 # ------------------------------------------------------------------------------
 
 
@@ -232,10 +275,16 @@ if IPurity(practicality) is practicality:
 
 # ------------------------------------------------------------------------------
 # 10. Errors should never pass silently.
+#    => Errors should never require a specification that doesn’t extend the
+#       specification of silence.
 #
-# An adapter registry maps required specifications to provided ones. A
-# lookup finds a registration for specifications that extend the required
-# one (IPass extends IErrors), but not for ones that don't (Interface: IErrors
+# The joke: The registration spells out the Zen line: errors (required),
+# "should not" (its name), "pass" (its value), silence (provided). The printed
+# line then restates the lookup rule below in the Zen's voice.
+#
+# The ZCA: An adapter registry maps required specifications to provided ones. A
+# lookup finds a registration for specifications that extend the required one
+# (IPass extends IErrors), but not for ones that don't (Interface: IErrors
 # extends it, not the other way round).
 # ------------------------------------------------------------------------------
 
@@ -267,8 +316,13 @@ if (
 
 # ------------------------------------------------------------------------------
 # 11. Unless explicitly silenced.
+#    => Unless explicit is a multi-adapter.
 #
-# A multi-adapter adapts several objects at once.
+# The joke: To explicitly silence errors, Explicit adapts errors and silence
+# together, producing an IPass: errors that pass, because they were explicitly
+# silenced.
+#
+# The ZCA: A multi-adapter adapts several objects at once.
 # ------------------------------------------------------------------------------
 
 
@@ -300,8 +354,15 @@ if IPass.providedBy(explicit) and explicit == Explicit(errors, silence):
 
 # ------------------------------------------------------------------------------
 # 12. In the face of ambiguity, refuse the temptation to guess.
+#    => In subscribing to ambiguity, return all the objects that refuse the
+#       temptation to guess.
 #
-# Subscriptions don't pick one registration: a lookup returns all of them.
+# The joke: This one is literally true. An adapter lookup picks the single best
+# match, but a subscription lookup refuses to choose and returns every match,
+# here the string "refuse the temptation to guess".
+#
+# The ZCA: Subscriptions don't pick one registration: a lookup returns all of
+# them.
 # ------------------------------------------------------------------------------
 
 
@@ -323,9 +384,14 @@ if "refuse the temptation to guess" in registry.subscriptions([IAmbiguity], IGue
 
 # ------------------------------------------------------------------------------
 # 13. There should be one-- and preferably only one --obvious way to do it.
+#    => There should be none-- and preferably only zero --output from a
+#       handler.
 #
-# Subscribers that provide None are handlers: calling subscribers() runs
-# them all and throws away whatever they return.
+# The joke: One becomes none, because the ZCA discards whatever a handler
+# returns: handler returns "output", yet calling the handlers produces nothing.
+#
+# The ZCA: Subscribers that provide None are handlers: calling subscribers()
+# runs them all and throws away whatever they return.
 # ------------------------------------------------------------------------------
 
 handled = []
@@ -343,8 +409,15 @@ if registry.subscribers([errors], None) == () and handled == [errors]:
 
 # ------------------------------------------------------------------------------
 # 14. Although that way may not be obvious at first unless you're Dutch.
+#    => Although that way may not be obvious at first unless you've registered
+#       an adapter hook.
 #
-# Adapter hooks let calling an interface find adapters in your own registry.
+# The joke: The Dutch (Guido van Rossum) are swapped for an adapter hook:
+# ISize(File()) finding FileSize is not obvious at all unless you know a hook
+# told the interface where to look.
+#
+# The ZCA: Adapter hooks let calling an interface find adapters in your own
+# registry.
 # ------------------------------------------------------------------------------
 
 
@@ -390,8 +463,13 @@ if isinstance(ISize(File()), FileSize):
 
 # ------------------------------------------------------------------------------
 # 15. Now is better than never.
+#    => Now is verified by never.
 #
-# verifyObject passes when an object has everything its interface declares.
+# The joke: "Better than" becomes "verified by": the class Never really does
+# have everything INow declares.
+#
+# The ZCA: verifyObject passes when an object has everything its interface
+# declares.
 # ------------------------------------------------------------------------------
 
 
@@ -411,8 +489,12 @@ if verifyObject(INow, Never()):
 
 # ------------------------------------------------------------------------------
 # 16. Although never is often better than *right* now.
+#    => Although never is not implemented by *right* now.
 #
-# ...and fails when something is missing, including what an interface
+# The joke: RightNow claims to implement INever but is missing y, so
+# verifyObject rejects it: right now is not a real never.
+#
+# The ZCA: ...and fails when something is missing, including what an interface
 # inherits.
 # ------------------------------------------------------------------------------
 
@@ -434,9 +516,15 @@ except BrokenImplementation:
 
 # ------------------------------------------------------------------------------
 # 17. If the implementation is hard to explain, it's a bad idea.
+#    => If the implementation is hard to explain, it queries the bad idea
+#       utility.
 #
-# Utilities are objects registered by the interface they provide, and an
-# optional name, then looked up from anywhere.
+# The joke: The idea becomes a named utility: the hard-to-explain
+# Implementation is registered under the name "bad idea", looked up by that
+# name, and asked to explain itself.
+#
+# The ZCA: Utilities are objects registered by the interface they provide, and
+# an optional name, then looked up from anywhere.
 # ------------------------------------------------------------------------------
 
 
@@ -464,6 +552,11 @@ queryUtility(IImplementation, "bad idea").explain()
 
 # ------------------------------------------------------------------------------
 # 18. If the implementation is easy to explain, it may be a good idea.
+#    => If the implementation is easy to explain, it may query the good idea
+#       utility.
+#
+# The joke: The same again, registered as "good idea". "May be" becomes "may
+# query", keeping the Zen's hedge.
 # ------------------------------------------------------------------------------
 
 provideUtility(Implementation(), IImplementation, "good idea")
@@ -472,8 +565,12 @@ queryUtility(IImplementation, "good idea").explain()
 
 # ------------------------------------------------------------------------------
 # 19. Namespaces are one honking great idea -- let's do more of those!
+#    => Implicit namespace packages are one honking great idea -- let's do more
+#       of those!
 #
-# Not a ZCA concept, but see https://peps.python.org/pep-0420/
+# The joke: The one line the ZCA can't improve on. Python did do more of those:
+# implicit namespace packages (PEP 420, https://peps.python.org/pep-0420/)
+# arrived in Python 3.3 in 2012, the year this was written.
 # ------------------------------------------------------------------------------
 
 print(

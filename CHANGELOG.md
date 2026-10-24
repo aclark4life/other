@@ -12,6 +12,7 @@
 - Make `other` a package in a `src` layout, with tests in `tests/` [aclark]
 - Reorganize the tutorial so each section defines what it uses [aclark]
 - Trim boilerplate from the tutorial: dataclasses instead of assign-only `__init__` methods, one-line docstrings, `size()` instead of `getSize()` [aclark]
+- Explain in each section's banner how its line of the Zen becomes ZCA code [aclark]
 - Drop `MANIFEST.in` and `requirements.txt`; add Python version
   classifiers, keywords and project URLs [aclark]
 - Add background, installation and development sections to the README [aclark]
